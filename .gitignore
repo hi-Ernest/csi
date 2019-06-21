@@ -13,3 +13,4 @@ buildNumber.properties
 .project
 .idea/
 csi.iml
+bin/
