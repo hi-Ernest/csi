@@ -44,4 +44,14 @@ public class UserController {
     public String index() {
         return "abc";
     }
+
+    @RequestMapping("/index2")
+    public String index2() {
+        return "main";
+    }
+
+    @RequestMapping("/index3")
+    public String index3() {
+        return "loginForm";
+    }
 }
