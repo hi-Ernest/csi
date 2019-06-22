@@ -14,3 +14,4 @@ buildNumber.properties
 .idea/
 csi.iml
 bin/
+src/resource/application.properties
