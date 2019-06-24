@@ -11,10 +11,10 @@ import edu.team.service.LoginService;
 import edu.team.util.Message;
 
 /**
+ * 登录界面Controller层
  * @author dailiwen
  * @date 2019/06/24
  */
-
 @RestController
 public class LoginController {
     @Autowired
@@ -24,11 +24,11 @@ public class LoginController {
     public String login(String loginName, String password, HttpSession session) {
         String result = loginService.login(loginName, password);
         if (result.equals("1")) {
-            session.setAttribute("loginId", loginName);
+            session.setAttribute("loginName", loginName);
             session.setAttribute("status", 1);
             return "SUCCESS";
         } else if (result.equals("2")) {
-            session.setAttribute("loginId", loginName);
+            session.setAttribute("loginName", loginName);
             session.setAttribute("status", 2);
             return "SUCCESS";
         } else {

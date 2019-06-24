@@ -9,6 +9,7 @@ import edu.team.service.LoginService;
 import edu.team.util.MD5Util;
 
 /**
+ * 登录界面Service实现层
  * @author dailiwen
  * @date 2019/06/24
  */
