@@ -24,7 +24,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
                 response.sendError(401);
             }
-            response.sendRedirect("loginForm.html");     //没有user信息的话进行路由重定向
+            // 此处应该添加上server.servlet.context-path在你需要调用的页面前。
+            // 防止重定向和拦截器现成的死循环
+            response.sendRedirect("/csi/loginForm.html");
             return false;
         }
         return true;        //有的话就继续操作
