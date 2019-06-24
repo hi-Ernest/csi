@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -27,6 +28,7 @@ import edu.team.config.interceptor.LoginInterceptor;
 
 /**
  * 过滤器加载配置
+ *
  * @author dailiwen
  * @date 2019/06/24
  */
@@ -38,14 +40,8 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         // addPathPatterns("/**") 表示拦截所有的请求，
-        // excludePathPatterns("/login", "/register") 表示除了登陆与注册之外，因为登陆注册不需要登陆也可以访问
-//        interceptorRegistry.addInterceptor(loginInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/loginForm.html", "/loginIn");
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
-
+        // 在excludePathPatterns中除了要放行登录界面和登录接口外，还需要放行static文件夹下的静态资源
+        InterceptorRegistration loginRegistry = interceptorRegistry.addInterceptor(loginInterceptor);
+        loginRegistry.addPathPatterns("/**").excludePathPatterns("/loginForm.html", "/loginIn", "/js/**", "/css/**", "/default/**", "/images/**", "/login/**");
     }
 }
