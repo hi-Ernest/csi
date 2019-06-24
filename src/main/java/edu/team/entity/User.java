@@ -1,14 +1,24 @@
 package edu.team.entity;
 
+import java.util.Date;
+
 /**
- * 初始项目实体类示例
+ * 用户类 对应 user_inf表
  * @author dailiwen
- * @date 2019/06/21
+ * @date 2019/06/24
  */
 public class User {
     private String id;
-    private String name;
-    private String remake;
+    private String loginName;
+    private String password;
+    private Integer status;
+    private Date createDate;
+    private String userName;
+    private String faceUrl;
+    private String facePath;
+
+    public User() {
+    }
 
     public String getId() {
         return id;
@@ -18,19 +28,73 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
-    public String getRemake() {
-        return remake;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRemake(String remake) {
-        this.remake = remake;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFaceUrl() {
+        return faceUrl;
+    }
+
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
+    }
+
+    public String getFacePath() {
+        return facePath;
+    }
+
+    public void setFacePath(String facePath) {
+        this.facePath = facePath;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", password='" + password + '\'' +
+                ", status=" + status +
+                ", createDate=" + createDate +
+                ", userName='" + userName + '\'' +
+                ", faceUrl='" + faceUrl + '\'' +
+                ", facePath='" + facePath + '\'' +
+                '}';
     }
 }
