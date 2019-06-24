@@ -77,6 +77,7 @@
   </dependencies>
 
     <build>
+        <finalName>csi</finalName>
         <plugins>
             <!-- 要使生成的jar可运行，需要加入此插件 -->
             <plugin>
@@ -88,18 +89,19 @@
             </plugin>
         </plugins>
 
-        <resources>
-          <resource>
-            <directory>lib</directory>
-            <targetPath>BOOT-INF/lib/</targetPath>
-            <includes>
-              <include>**/*.jar</include>
-            </includes>
-          </resource>
-          <resource>
-            <directory>src/main/resources</directory>
-            <targetPath>BOOT-INF/classes/</targetPath>
-          </resource>
-        </resources>
+<!--        <resources>-->
+<!--          <resource>-->
+<!--            <directory>lib</directory>-->
+<!--            <targetPath>BOOT-INF/lib/</targetPath>-->
+<!--            <includes>-->
+<!--              <include>**/*.jar</include>-->
+<!--            </includes>-->
+<!--          </resource>-->
+<!--          <resource>-->
+<!--            <directory>src/main/resources</directory>-->
+<!--            <targetPath>BOOT-INF/classes/</targetPath>-->
+<!--            <includes></includes>-->
+<!--          </resource>-->
+<!--        </resources>-->
     </build>
 </project>
