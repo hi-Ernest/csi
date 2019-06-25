@@ -12,5 +12,5 @@ import edu.team.entity.User;
 @Mapper
 public interface LoginDao {
 
-    public User login(String loginName);
+    User login(String loginName);
 }
