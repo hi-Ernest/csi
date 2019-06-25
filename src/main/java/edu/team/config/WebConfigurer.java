@@ -44,4 +44,9 @@ public class WebConfigurer implements WebMvcConfigurer {
         InterceptorRegistration loginRegistry = interceptorRegistry.addInterceptor(loginInterceptor);
         loginRegistry.addPathPatterns("/**").excludePathPatterns("/loginForm.html", "/loginIn", "/js/**", "/css/**", "/default/**", "/images/**", "/login/**");
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/localFile/**").addResourceLocations("file:D:/localFile/");
+    }
 }
