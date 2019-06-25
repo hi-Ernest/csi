@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.team.dao.UserDao">
-    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
-    <resultMap id="BaseResultMap1" type="edu.team.entity.User">
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="login_name" property="loginName" jdbcType="CHAR" />
-        <result column="password" property="password" jdbcType="CHAR" />
-        <result column="status" property="status" jdbcType="INTEGER" />
-        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-        <result column="user_name" property="userName" jdbcType="CHAR" />
-        <result column="face_url" property="faceUrl" jdbcType="CHAR" />
-        <result column="face_path" property="facePath" jdbcType="CHAR" />
-    </resultMap>
-    <!-- 查询dept_inf所有用户信息 -->
-    <select id="findAllUsers" resultMap="BaseResultMap1">
+	<!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
+	<resultMap id="BaseResultMap1" type="edu.team.entity.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="login_name" property="loginName"
+			jdbcType="CHAR" />
+		<result column="password" property="password" jdbcType="CHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="user_name" property="userName" jdbcType="CHAR" />
+		<result column="face_url" property="faceUrl" jdbcType="CHAR" />
+		<result column="face_path" property="facePath" jdbcType="CHAR" />
+	</resultMap>
+	<!-- 查询dept_inf所有用户信息 -->
+	<select id="findAll" resultMap="BaseResultMap1">
 		SELECT * FROM user_inf;
 	</select>
-    <!-- 通过名字查询 -->
-    <select id="findUserByUsername" parameterType="int" resultMap="BaseResultMap1">
+	<!-- 查询dept_inf单个用户信息 -->
+	<select id="getUser" resultMap="BaseResultMap1">
+		SELECT * FROM user_inf WHERE id =
+		#{id};
+	</select>
+	<!-- 通过名字查询 -->
+	<select id="findUserByUsername" parameterType="int"
+		resultMap="BaseResultMap1">
 		SELECT * FROM user_inf WHERE user_name =#{value};
 	</select>
-    <!-- 通过id删除 -->
-    <delete id="deleteUser" parameterType="Integer">
-		DELETE FROM user_inf WHERE id = #{id};
+	<!-- 通过id删除 -->
+	<delete id="delete" parameterType="Integer">
+		DELETE FROM user_inf WHERE id
+		= #{id};
 	</delete>
-    <!-- 增加 -->
-    <insert id="addUser">
-        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
-            select LAST_INSERT_ID();
-        </selectKey>
-        insert into user_inf(login_name)
-        value(#{login_name})
-        insert into user_inf(password)
-        value(#{password})
-    </insert>
-    <!-- 编辑 -->
-    <update id="editUser">
-        UPDATE user_inf
-        SET login_name = #{login_name},password=#{password}
-        WHERE
-            id = #{id};
+	<!-- 增加 -->
+	<insert id="add">
+		insert into user_inf(user_name,status,login_name,password)
+		values(#{username},#{status},#{loginname},#{password});
+	</insert>
+	<!-- 编辑 -->
+	<update id="edit">
+		UPDATE user_inf
+		SET user_name = #{username},loginname=#{loginname},status=#{status}
+		WHERE
+		id = #{id};
 	</update>
 </mapper>
