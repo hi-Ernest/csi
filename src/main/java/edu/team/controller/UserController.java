@@ -20,7 +20,7 @@ public class UserController {
 
     @RequestMapping("/test")
     public User test() {
-        return userService.select();
+        return userService.getUser(1);
     }
 
     @RequestMapping("/m")
