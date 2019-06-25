@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.team.dao.DocumentDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
+    <resultMap id="DocumentMap" type="edu.team.entity.Document">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="CHAR" />
+        <result column="file_name" property="fileName" jdbcType="CHAR" />
+        <result column="remake" property="remake" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!-- 查询dept_inf所有用户信息 -->
+    <select id="findAllDocument" resultMap="DocumentMap">
+		SELECT
+			document_inf.id,
+			document_inf.title,
+			document_inf.create_date,
+			document_inf.user_id,
+			document_inf.remake,
+			document_inf.file_name
+		FROM
+			document_inf
+	</select>
+
+    <!-- 通过标题查询单个文档 -->
+    <select id="findDocumentFromTitle" parameterType="string" resultMap="DocumentMap">
+		SELECT
+			document_inf.id,
+			document_inf.title,
+			document_inf.create_date,
+			document_inf.user_id,
+			document_inf.remake,
+			document_inf.file_name
+		FROM
+			document_inf
+		WHERE
+			document_inf.title = #{value};
+	</select>
+
+    <!-- 通过id删除单个文档 -->
+    <delete id="deleteDocumentFromId" parameterType="Integer">
+		DELETE
+		FROM
+			document_inf
+		WHERE
+			id = #{id};
+	</delete>
+
+    <!-- 增加单个文档信息 -->
+    <insert id="addDocument">
+		INSERT INTO document_inf (
+			document_inf.title,
+			document_inf.file_name,
+			document_inf.remake,
+			document_inf.create_date,
+			document_inf.user_id
+		)
+		VALUES
+			(#{title}, #{fileName}, #{remake}, #{createData}, #{userId});
+	</insert>
+
+    <!-- 编辑文档信息 -->
+    <update id="updateDocument">
+		UPDATE document_inf
+		SET document_inf.title = #{title},
+		 document_inf.create_date = #{createData},
+		 document_inf.user_id = #{userId},
+		 document_inf.remake = #{remake}
+		WHERE
+			id = #{id};
+	</update>
+</mapper>

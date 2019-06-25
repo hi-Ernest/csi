@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态创建表格案例</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+
+        th, td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: green;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+
+        a {
+            color: #47C6DB;
+        }    </style>
+    <script>
+        var data = [{
+            type: "水果", name: "香蕉", num: "100", terms: "查看详情",
+        }, {
+            type: "水果", name: "苹果", num: "50", terms: "查看详情",
+        }, {
+            type: "水果", name: "火龙果", num: "200", terms: "查看详情",
+        }];
+
+        $(function () {            //清空所有的子节点
+            $("#table_data").empty();
+            for (var i = 0; i < data.length; i++) {                //动态创建一个tr行标签,并且转换成jQuery对象
+                var $trTemp = $("<tr></tr>");                //往行里面追加 td单元格
+                $trTemp.append("<td>" + data[i].type + "</td>");
+                $trTemp.append("<td>" + data[i].name + "</td>");
+                $trTemp.append("<td>" + data[i].num + "</td>");
+                $trTemp.append("<td><a>" + data[i].terms + "</a></td>");
+                $trTemp.appendTo("#table_data");
+            }
+        });    </script>
+</head>
+<body>
+<table>
+    <thead>
+    <tr class="table_header">
+        <th>产品类别</th>
+        <th>产品名称</th>
+        <th>数量</th>
+        <th>详情</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+</body>
+</html>
