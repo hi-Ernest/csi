@@ -61,8 +61,19 @@ public class EmployeeInf {
         this.name = name;
     }
 
-
-    public EmployeeInf(Integer deptId, Integer jobId, String name, String cardId, String address, String postCode, String tel, String phone, String qqNum, String email, Integer sex, String party, String birthday, String race, String education, String speciality, String hobby, String remake) {
+    public EmployeeInf(Integer deptId,
+                       Integer jobId, String name,
+                       String cardId, String address,
+                       String postCode, String tel,
+                       String phone, String qqNum,
+                       String email, Integer sex,
+                       String party, String birthday,
+                       String race, String education,
+                       String speciality, String hobby,
+                       String remake, String createDate,
+                       String jobName, String deptName,
+                       String sexName) {
+        this.id = id;
         this.deptId = deptId;
         this.jobId = jobId;
         this.name = name;
@@ -81,6 +92,10 @@ public class EmployeeInf {
         this.speciality = speciality;
         this.hobby = hobby;
         this.remake = remake;
+        this.createDate = createDate;
+        this.jobName = jobName;
+        this.deptName = deptName;
+        this.sexName = sexName;
     }
 
     public Integer getId() {

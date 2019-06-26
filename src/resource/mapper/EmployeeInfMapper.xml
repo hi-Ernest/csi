@@ -21,7 +21,7 @@
     <result column="education" jdbcType="VARCHAR" property="education" />
     <result column="speciality" jdbcType="VARCHAR" property="speciality" />
     <result column="hobby" jdbcType="VARCHAR" property="hobby" />
-    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="remake" jdbcType="VARCHAR" property="remake"/>
   </resultMap>
 
     <select id="findAllEmployeeInf" resultMap="BaseResultMap">
@@ -45,50 +45,56 @@
 
 
   <insert id="addEmployeeInf" parameterType="edu.team.entity.EmployeeInf">
-    insert into employee_inf
-    (dept_id,
-    job_id,`name`,
-    card_id, address,
-    post_code, tel,
-    phone, qq_num,
-    email, sex,
-    party, birthday,
-    race, education,
-    speciality, hobby,
-    remake, create_date)
-    values (#{emp.deptId}, #{emp.jobId},
-      #{emp.name}, #{emp.cardId}, #{emp.address},
-      #emp.postCode}, #{emp.tel}, #{emp.phone},
-      #{emp.qqNum}, #{emp.email}, #{emp.sex},
-      #{emp.party}, #{emp.birthday}, #{emp.race},
-      #{emp.education}, #{emp.speciality}, #{emp.hobby},
-      #{emp.remake}, CURRENT_TIMESTAMP)
+    insert into employee_inf (
+      dept_id, job_id,
+      `name`, card_id,
+      address, post_code,
+      tel, phone,
+      qq_num, email,
+      sex, party,
+      birthday, race,
+      education, speciality,
+      hobby, remake,
+      create_date
+    )
+    values (
+        #{deptId}, #{jobId},
+        #{name}, #{cardId},
+        #{address}, #{postCode},
+        #{tel}, #{phone},
+        #{qqNum}, #{email},
+        #{sex}, #{party},
+        #{birthday}, #{race},
+        #{education}, #{speciality},
+        #{hobby}, #{remake},
+        CURRENT_TIME
+      )
   </insert>
 
 
 
-  <update id="editEmployeeInfById" parameterType="edu.team.entity.EmployeeInf">
-    update employee_inf
-    set dept_id = #{emp.deptId},
-      job_id = #{emp.jobId},
-      `name` = #{emp.name},
-      card_id = #{emp.cardId},
-      address = #{emp.address},
-      post_code = #{emp.postCode},
-      tel = #{emp.tel},
-      phone = #{emp.phone},
-      qq_num = #{emp.qqNum},
-      email = #{emp.email},
-      sex = #{emp.sex},
-      party = #{emp.party},
-      birthday = #{emp.birthday},
-      race = #{emp.race},
-      education = #{emp.education},
-      speciality = #{emp.speciality},
-      hobby = #{emp.hobby},
-      remake = #{emp.remake}
-    where id = #{emp.id}
-  </update>
+<!--  <update id="editEmployeeInfById" parameterType="edu.team.entity.EmployeeInf">-->
+<!--    update employee_inf-->
+<!--    set dept_id = #{emp.deptId},-->
+<!--      job_id = #{emp.jobId},-->
+<!--      `name` = #{emp.name},-->
+<!--      card_id = #{emp.cardId},-->
+<!--      address = #{emp.address},-->
+<!--      post_code = #{emp.postCode},-->
+<!--      tel = #{emp.tel},-->
+<!--      phone = #{emp.phone},-->
+<!--      qq_num = #{emp.qqNum},-->
+<!--      email = #{emp.email},-->
+<!--      sex = #{emp.sex},-->
+<!--      party = #{emp.party},-->
+<!--      birthday = #{emp.birthday},-->
+<!--      race = #{emp.race},-->
+<!--      education = #{emp.education},-->
+<!--      speciality = #{emp.speciality},-->
+<!--      hobby = #{emp.hobby},-->
+<!--      remake = #{emp.remake}-->
+<!--    where id = #{emp.id}-->
+<!--  </update>-->
 
 
   <!--  <select id="countByExample" parameterType="pojo.EmployeeInfExample" resultType="java.lang.Long">-->

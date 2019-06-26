@@ -18,6 +18,8 @@ public interface DocumentDao {
 
      List<Document> findDocumentFromTitle(String title);
 
+     Document findDocumentFromId(Integer id);
+
      void deleteDocumentFromId(Integer id);
 
      void addDocument(String title, String fileName, String remake, Timestamp createData, Integer userId);

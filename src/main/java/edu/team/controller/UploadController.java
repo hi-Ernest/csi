@@ -1,17 +1,29 @@
 package edu.team.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.team.entity.Document;
@@ -47,7 +59,7 @@ public class UploadController {
             docFile.transferTo(localFile);
             //System.out.println("上传成功");
             Timestamp timestamp = new Timestamp(new Date().getTime());
-            String result = documentService.addDocument(docTitle, docFile.getOriginalFilename(), docDetail, timestamp, 1);
+            String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, 1);
             if ("SUCCESS".equals(result)) {
                 return "SUCCESS";
             } else {
@@ -64,6 +76,15 @@ public class UploadController {
         return documentService.findAllDocument();
     }
 
+    @RequestMapping(value = "getDocumentFromTitle", method = RequestMethod.POST)
+    public List<Document> getDocumentFromTitle(String title) {
+        if ("".equals(title) || null == title) {
+            return documentService.findAllDocument();
+        } else {
+            return documentService.findDocumentFromTitle(title);
+        }
+    }
+
     @RequestMapping(value = "deleteDocumentFromId", method = RequestMethod.POST)
     public String deleteDocumentFromId(String ids) {
         String result;
@@ -75,5 +96,53 @@ public class UploadController {
             }
         }
         return JacksonUtil.objectToJson("SUCCESS");
+    }
+
+    @GetMapping("download")
+    public String downloadFile(HttpServletResponse response, String id) {
+        Document document = documentService.findDocumentFromId(Integer.valueOf(id));
+        String filePath = "D://CsiFile//";
+        String fileName = document.getFileName();
+        if (fileName != null) {
+            //设置文件路径
+            File file = new File(filePath + fileName);
+            if (file.exists()) {
+                //去掉固定长度前缀
+                fileName = fileName.substring(18, fileName.length());
+                try {
+                    response.reset();// 清空输出流
+                    fileName = URLEncoder.encode(fileName, "UTF-8");
+                    response.setCharacterEncoding("UTF-8");
+                    response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
+                    response.setContentType("application/octet-stream");// 定义输出类型
+                    //输入流：本地文件路径
+                    DataInputStream in = new DataInputStream(
+                            new FileInputStream(file));
+                    //输出流
+                    OutputStream out = response.getOutputStream();
+                    //输出文件
+                    int bytes = 0;
+                    byte[] bufferOut = new byte[1024];
+                    while ((bytes = in.read(bufferOut)) != -1) {
+                        out.write(bufferOut, 0, bytes);
+                    }
+                    out.close();
+                    in.close();
+                    return JacksonUtil.objectToJson("SUCCESS");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.reset();
+                    try {
+                        OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
+                        String data = "<script language='javascript'>alert(\"\\u64cd\\u4f5c\\u5f02\\u5e38\\uff01\");</script>";
+                        writer.write(data);
+                        writer.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        }
+        return JacksonUtil.objectToJson("FAIL");
     }
 }

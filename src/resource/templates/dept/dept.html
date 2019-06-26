@@ -20,6 +20,69 @@
 	<script src="../js/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript">
+	function submit(){
+		 var name = $("#name");
+		 $.ajax({
+				type:"post",
+				url:"../selectDept",
+				data:{
+					name:name.val(),
+				},
+				dataType:"json",
+				async:false,
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+	            },
+				success: function (res) {
+	                console.log(res);
+	                var json = eval(res);
+	                $("#tbody").empty();
+	                $.each(json, function (index, item) {
+	                    //循环获取数据
+	                    var id = json[index].id;
+	                    var name = json[index].name;
+	                    var remake = json[index].remake;
+	                   
+	                    var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+	                    $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
+	                    $trTemp.append("<td>" + name + "</td>");
+	                    $trTemp.append("<td>" + remake + "</td>");
+	                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+	                    $trTemp.appendTo("#tbody");
+	                });
+	            }	
+			})
+	 }
+	$(function () {
+        var boxs;
+        $.ajax({
+            url: "../selectAllDept",
+            type: "get",
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+            },
+            success: function (res) {
+                console.log(res);
+                var json = eval(res);
+                $("#tbody").empty();
+                $.each(json, function (index, item) {
+                    //循环获取数据
+                    var id = json[index].id;
+                    var name = json[index].name;
+                    var remake = json[index].remake;
+                   
+                    var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+                    $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
+                    $trTemp.append("<td>" + name + "</td>");
+                    $trTemp.append("<td>" + remake + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+                    $trTemp.appendTo("#tbody");
+                });
+            }
+        })
+	})
+                
 		$(function(){
 	 	   /** 获取上一次选中的部门数据 */
 	 	   var boxs  = $("input[type='checkbox'][id^='box_']");
@@ -37,7 +100,6 @@
 	    	},function(){
 	    		$(this).css("backgroundColor","#ffffff");
 	    	})
-	    	
 	    	
 	 	   /** 删除员工绑定点击事件 */
 	 	   $("#delete").click(function(){
@@ -85,8 +147,8 @@
 				    <table width="100%" border="0" cellpadding="0" cellspacing="0">
 					  <tr>
 					    <td class="font3">
-					    	部门名称：<input type="text" name="name">
-					    	 <input type="submit" value="搜索"/>
+					    	部门名称：<input type="text" id="name" name="name">
+					    	 <input type="button" onclick="submit()" value="搜索"/>
 					    	<input id="delete" type="button" value="删除"/>
 					    </td>
 					  </tr>
@@ -102,7 +164,7 @@
 	  <tr valign="top">
 	    <td height="20">
 		 <table width="100%" border="1" cellpadding="5" cellspacing="0" style="border:#c2c6cc 1px solid; border-collapse:collapse;">
-		    <tbody><tr class="main_trbg_tit" align="center">
+		    <tr class="main_trbg_tit" align="center">
 			  <td><input type="checkbox" name="checkAll" id="checkAll"></td>
 			  <td>部门名称</td>
 			  <td>详细信息</td>
@@ -110,50 +172,7 @@
 			  <td align="center">操作</td>
 			  
 			</tr>
-			
-				<tr id="data_0" align="center" class="main_trbg" style="background-color: rgb(255, 255, 255);">
-					<td><input type="checkbox" id="box_0" value="1"></td>
-					 <td>技术部</td>
-					  <td>技术部</td>
-					  	
-					 <td align="center" width="40px;"><a href="showUpdateDept.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					  
-				</tr>
-			
-				<tr id="data_1" align="center" class="main_trbg" style="background-color: rgb(238, 204, 255);">
-					<td><input type="checkbox" id="box_1" value="2"></td>
-					 <td>运营部</td>
-					  <td>运营部</td>
-					  	
-					 <td align="center" width="40px;"><a href="showUpdateDept.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					  
-				</tr>
-			
-				<tr id="data_2" align="center" class="main_trbg">
-					<td><input type="checkbox" id="box_2" value="3"></td>
-					 <td>财务部</td>
-					  <td>财务部</td>
-					  	
-					 <td align="center" width="40px;"><a href="showUpdateDept.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					  
-				</tr>
-			
-				<tr id="data_3" align="center" class="main_trbg">
-					<td><input type="checkbox" id="box_3" value="5"></td>
-					 <td>总公办</td>
-					  <td>总公办</td>
-					  	
-					 <td align="center" width="40px;"><a href="showUpdateDept.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					  
-				</tr>
+			<tbody id="tbody">
 			
 		  </tbody></table>
 		</td>

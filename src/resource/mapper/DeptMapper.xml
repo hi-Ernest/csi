@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.team.dao.DeptDao">
+    
+    <resultMap id="DeptResultMap" type="edu.team.entity.Dept">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="remake" property="remake" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <!-- 查询dept_inf 所有数据-->
+    <select id="selectDeptAll" resultMap="DeptResultMap">
+        SELECT * FROM dept_inf;
+    </select>
+    
+    <!-- 查询dept_inf -->
+    <select id="selectDept" parameterType="String" resultMap="DeptResultMap">
+        SELECT * FROM dept_inf WHERE name = #{name,jdbcType=VARCHAR};
+    </select>
+    
+    <!-- 删除dept_inf -->
+    <delete id="deleteDept" parameterType="String" >
+        delete FROM dept_inf WHERE name = #{name,jdbcType=VARCHAR};
+    </delete>
+    
+    <!-- 添加dept_inf -->
+    <insert id="insertDept"  parameterType="edu.team.entity.Dept">
+        insert into dept_inf(name,remake) values(#{name,jdbcType=VARCHAR},#{remake,jdbcType=VARCHAR});
+    </insert>
+    
+    <!-- 修改dept_inf -->
+    <update id="updateDept" parameterType="edu.team.entity.Dept">
+        update dept_inf set name=#{name,jdbcType=VARCHAR},remake=#{remake,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER};
+    </update>
+
+    <select id="selectNameById" parameterType="java.lang.Integer" resultMap="DeptResultMap">
+        select *
+        from dept_inf
+        where id = #{id}
+  </select>
+
+</mapper>

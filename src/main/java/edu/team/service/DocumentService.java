@@ -15,6 +15,8 @@ public interface DocumentService {
 
     List<Document> findDocumentFromTitle(String title);
 
+    Document findDocumentFromId(Integer id);
+
     String deleteDocumentFromId(Integer id);
 
     String addDocument(String title, String fileName, String remake, Timestamp createData, Integer userId);

@@ -1,10 +1,15 @@
 package edu.team.controller;
 
+import edu.team.entity.Dept;
 import edu.team.entity.EmployeeInf;
+import edu.team.entity.Job;
+import edu.team.service.DeptService;
 import edu.team.service.EmployeeService;
+import edu.team.service.JobService;
 import edu.team.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +20,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    
+    @Autowired
+    private DeptService deptService;
+
+
+    @Autowired
+    private JobService jobService;
+
 
     /**
      * 查询所有员工信息
@@ -58,19 +69,21 @@ public class EmployeeController {
 
     }
 
-    //增加页面前加载
-    @RequestMapping(value="/showAddEmployee", method = RequestMethod.GET)
-    public String addEmployee() {
-
-
-
-        employeeService.addEmployeeInf(map);
-
-        return "SUCCESS";
+    //增加页面前加载JOB
+    @RequestMapping(value="/showAddEmployeeForJob", method = RequestMethod.GET)
+    public String showAddEmployeeForJob() {
+        List<Job> jobs = jobService.selectAllJobs();
+        return JacksonUtil.objectToJson(jobs);
     }
 
+    //增加页面前加载DEPT
+    @RequestMapping(value="/showAddEmployeeForDept", method = RequestMethod.GET)
+    public String showAddEmployeeForDept() {
 
+        List<Dept> depts = deptService.selectDeptAll();
 
+        return JacksonUtil.objectToJson(depts);
+    }
 
 
     //增加
@@ -83,6 +96,8 @@ public class EmployeeController {
 
         Map<String, Object> map = JacksonUtil.jsonToMap(employee);
 
+
+        System.out.println(map.toString() +"       ----------------------------");
         employeeService.addEmployeeInf(map);
 
         return "SUCCESS";
