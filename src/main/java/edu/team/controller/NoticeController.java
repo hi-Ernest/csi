@@ -80,4 +80,20 @@ public class NoticeController {
         }
         return JacksonUtil.objectToJson("SUCCESS");
     }
+
+    @RequestMapping(value = "getNoticeFromId", method = RequestMethod.POST)
+    public Notice getNoticeFromId(String id) {
+        return noticeService.findNoticeFromId(Integer.valueOf(id));
+    }
+
+    @RequestMapping(value = "updateNoticeFromId", method = RequestMethod.POST)
+    public String updateNoticeFromId(String id, String title, String content, HttpSession session) {
+        String result = addNotice(title, content, session);
+        if (JacksonUtil.objectToJson("SUCCESS").equals(result)) {
+            result = deleteNoticeFromId(id);
+            if (JacksonUtil.objectToJson("SUCCESS").equals(result))
+                return JacksonUtil.objectToJson("SUCCESS");
+        }
+        return JacksonUtil.objectToJson("FAIL");
+    }
 }

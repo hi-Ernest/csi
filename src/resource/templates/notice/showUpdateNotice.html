@@ -86,7 +86,7 @@
 						<tr><td class="main_tdbor"></td></tr>
 						
 						<tr><td class="font3 fftd">
-								<input type="button" onclick="submit()" value="修改">
+								<input type="button" id="btn" value="修改">
 								<input type="reset" value="重置">
 						</td></tr>
 						<tr><td class="main_tdbor"></td></tr>
@@ -97,5 +97,82 @@
 		  	</tr>
 		</table>
 		<div style="height:10px;"></div>
+		<script type="text/javascript">
+			var id = getParams("id");
+
+			function getParams(name, href) {
+				var href = href || window.location.href,
+						value = '';
+				if (name) {
+					var reg = new RegExp(name + '=([^&]*)', 'g');
+					href.replace(reg, function ($0, $1) {
+						value = decodeURI($1);
+					});
+				} else {
+					value = {};
+					var reg = /\b(\w+)=([^\/&]*)/g;
+					href.replace(reg, function ($0, $1, $2) {
+						value[$1] = decodeURI($2);
+					});
+				}
+				return value;
+			};
+
+			var formData = new FormData();
+			formData.append("id", id);
+
+			$.ajax({
+				url: "../getNoticeFromId",
+				type: "post",
+				data: formData,
+				dataType: "json",
+				async: false,
+				processData: false, // 使数据不做处理
+				contentType: false, // 不要设置Content-Type请求头
+				error: function (res) {
+					$.ligerDialog.error("出错了，请与管理员联系！");
+				},
+				success: function (res) {
+					var json = eval(res);
+					$("#title").attr('value', json.title);
+					$("#content").attr('value', json.content);
+				}
+			});
+
+			$(document).ready(function () {
+				/** 表单提交的校验 */
+				$("#btn").click(function () {
+					var crowd_name = $.trim($('#title').val());
+					var crowd_desc = $.trim($('#content').val());
+
+					var formData = new FormData();
+
+					formData.append("id", id);
+					formData.append("title", crowd_name);
+					formData.append("content", crowd_desc);
+
+					$.ajax({
+						url: "../updateNoticeFromId",
+						type: "post",
+						data: formData,
+						dataType: "json",
+						async: false,
+						processData: false, // 使数据不做处理
+						contentType: false, // 不要设置Content-Type请求头
+						error: function (res) {
+							$.ligerDialog.error("出错了，请与管理员联系！");
+						},
+						success: function (res) {
+							if (res == "SUCCESS") {
+								$.ligerDialog.success("修改成功");
+								//location.href = "notice.html";
+							} else {
+								$.ligerDialog.error("出错了，请与管理员联系！");
+							}
+						}
+					});
+				})
+			});
+		</script>
 	</body>
 </html>

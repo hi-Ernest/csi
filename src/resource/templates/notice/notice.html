@@ -126,8 +126,8 @@
                     $trTemp.append("<td>" + content + "</td>");
                     $trTemp.append("<td>" + createDate + "</td>");
                     $trTemp.append("<td>" + userName + "</td>");
-                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateNotice.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
-                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id + "\" id=\"prev_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"预览\" src=\"../images/prev.gif\"/>" + "</a>" + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateNotice.html?id="+ id +"\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"prev_" + id + "\">" + "<img width=\"20\" height=\"20\" title=\"预览\" src=\"../images/prev.gif\"/>" + "</a>" + "</td>");
                     $trTemp.appendTo("#tbody");
                     count = index;
                 });
@@ -192,24 +192,23 @@
                         $("#" + checkboxId).trigger("click");
                     });
                 });
+
+                /** 给预览绑定点击事件 */
+                $("a[id^='prev_']").click(function () {
+                    var noticeId = this.id.replace('prev_', '');
+                    $.ligerDialog.open({
+                        title: '预览公告',
+                        height: 500,
+                        url: 'previewNotice.html?id=' + noticeId,
+                        width: 750,
+                        showMax: true,
+                        showToggle: true,
+                        showMin: true,
+                        isResize: true,
+                        slide: false
+                    });
+                })
             }
-
-
-            /** 给预览绑定点击事件 */
-            $("a[id^='prev_']").click(function () {
-                var noticeId = this.id.replace('prev_', '');
-                $.ligerDialog.open({
-                    title: '预览公告',
-                    height: 500,
-                    url: 'previewNotice.html',
-                    width: 750,
-                    showMax: true,
-                    showToggle: true,
-                    showMin: true,
-                    isResize: true,
-                    slide: false
-                });
-            })
         })
     </script>
 </head>

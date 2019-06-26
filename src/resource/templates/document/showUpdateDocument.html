@@ -134,7 +134,6 @@
         },
         success: function (res) {
             var json = eval(res);
-            console.log(json.title + "!!!!!!" + json.remake)
             $("#doc_title").attr('value', json.title);
             $("#doc_detail").attr('value', json.remake);
         }
