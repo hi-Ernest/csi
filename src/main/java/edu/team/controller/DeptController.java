@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.team.entity.Dept;
 import edu.team.service.DeptService;
+import edu.team.util.JacksonUtil;
 
 
 /**
@@ -45,24 +46,39 @@ public class DeptController {
 		Dept dept=new Dept();
 		dept.setName(name);
 		dept.setRemake(remake);
-	    deptService.insertDept(dept);
-	    return "success";
+	    String result=deptService.insertDept(dept);
+	    if ("FAIL".equals(result)) {
+            return JacksonUtil.objectToJson("FAIL");
+        }else {
+           return JacksonUtil.objectToJson("SUCCESS");
+        }
 	}
 	
 	@RequestMapping(value="/deleteDept",method=RequestMethod.POST)
-	public void deleteDept() {
-	    deptService.deleteDept("萧炎");
-	 //   return "";
+	public String deleteDept(String ids) {
+	    String result;
+        String[] id = ids.split(",");
+        for (int i = 0; i < id.length; i++) {
+            result = deptService.deleteDept(Integer.valueOf(id[i]));
+            if ("FAIL".equals(result)) {
+                return JacksonUtil.objectToJson("FAIL");
+            }
+        }
+        return JacksonUtil.objectToJson("SUCCESS");
 	}
 	
 	@RequestMapping(value="/updateDept",method=RequestMethod.POST)
-	public void updateDept(int id,String name,String remake) {
+	public String updateDept(int id,String name,String remake) {
 		Dept dept=new Dept();
 		dept.setId(id);
 		dept.setName(name);
 		dept.setRemake(remake);
-	    deptService.updateDept(dept);
-	  //  return "";
+	    String result=deptService.updateDept(dept);
+	    if ("FAIL".equals(result)) {
+            return JacksonUtil.objectToJson("FAIL");
+        }else {
+           return JacksonUtil.objectToJson("SUCCESS");
+        }
 	}
 
 }

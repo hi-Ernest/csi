@@ -25,7 +25,7 @@ function submit(){
 			//$("#jobForm").submit(function(){
 				var name = $("#name");
 				var remark = $("#remark");
-				var msg = "";
+			/*	var msg = "";
 				if ($.trim(name.val()) == ""){
 					msg = "职位名称不能为空！";
 					name.focus();
@@ -38,11 +38,34 @@ function submit(){
 					return false;
 				}else{
 					return true;
-				}
+				}*/
 				//$("#jobForm").submit();
 			//});
+				$.ajax({
+					type:"post",
+					url:"../insertJob",
+					data:{
+						name:name.val(),
+						remake:remark.val(),
+					},
+					dataType:"json",
+					async:false,
+					success:function(data){
+						console.log(data);
+						if (data == "SUCCESS") {
+							$.ligerDialog.success("添加成功");
+	                    }
+					},
+					error:function(e){
+						$.ligerDialog.error("添加失败");
+					}
+					
+				})
 	    }
-		
+	    
+		function cancel(){
+			location.href = "job。html";
+		};
 
 	</script>
 </head>
@@ -73,7 +96,7 @@ function submit(){
 		    </td></tr>
 			<tr><td class="main_tdbor"></td></tr>
 			
-			<tr><td align="left" class="fftd"><input type="button" onclick="submit()" value="添加 ">&nbsp;&nbsp;<input type="reset" value="取消 "></td></tr>
+			<tr><td align="left" class="fftd"><input type="button" onclick="submit()" value="添加 ">&nbsp;&nbsp;<input type="button" onclick="cancel()" value="取消 "></td></tr>
 		  </table>
 		
 	</td>
