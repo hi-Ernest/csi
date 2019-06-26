@@ -23,7 +23,7 @@
 	 function submit(){
 	    	/** 部门表单提交 */
 			//$("#deptForm").submit(function(){
-				var name = $("#name");
+			/*	var name = $("#name");
 				var remark = $("#remark");
 				var msg = "";
 				if ($.trim(name.val()) == ""){
@@ -38,7 +38,28 @@
 					return false;
 				}else{
 					return true;
-				}
+				}*/
+				
+				$.ajax({
+					type:"post",
+					url:"../insertDept",
+					data:{
+						name:name.val(),
+						remake:remark.val(),
+					},
+					dataType:"json",
+					async:false,
+					success:function(data){
+						console.log(data);
+						if (data == "success") {
+							$.ligerDialog.error("添加成功");
+	                    }
+					},
+					error:function(e){
+						$.ligerDialog.error("添加失败");
+					}
+					
+				})
 				//$("#deptForm").submit();
 			//});
 	    }
