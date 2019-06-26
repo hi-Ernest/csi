@@ -17,18 +17,22 @@
     <script src="../js/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../js/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
     <script src="../js/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+
+    <script src="../js/mypager.js" type="text/javascript"></script>
+    <link href="../css/mypager.css" type="text/css" rel="stylesheet"/>
+
     <script type="text/javascript">
         $(function () {
             var boxs;
             $.ajax({
                 url: "../getAllDocument",
-                type: "get",
+                type: "post",
                 dataType: "json",
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.ligerDialog.error("出错了，请与管理员联系！");
                 },
                 success: function (res) {
-                    loadData(res);
+                    loadData(res, "../getAllDocument", "post");
                 }
             });
 
@@ -69,7 +73,6 @@
                                     }
                                 }
                             });
-                            //window.location = "../deleteDocumentFromId?ids=" + ids.get();
                         }
                     });
                 }
@@ -92,24 +95,29 @@
                         $.ligerDialog.error("出错了，请与管理员联系！");
                     },
                     success: function (res) {
-                        loadData(res);
+                        loadData(res, "../getDocumentFromTitle", "post", formData);
                     }
                 });
             });
 
             //加载页面数据方法单独提出
-            function loadData(res) {
+            function loadData(res, url, type, formData) {
                 console.log(res);
                 var json = eval(res);
                 $("#tbody").empty();
-                $.each(json, function (index, item) {
+                var count = 0;
+                var list = eval(json.list);
+                $.each(list, function (index, item) {
                     //循环获取数据
-                    var id = json[index].id;
-                    var title = json[index].title;
-                    var fileName = json[index].fileName;
-                    var remake = json[index].remake;
-                    var createDate = json[index].createDate;
-                    var userId = json[index].userId;
+                    var id = list[index].id;
+                    var title = list[index].title;
+                    var fileName = list[index].fileName;
+                    var remake = list[index].remake;
+                    var createDate = list[index].createDate;
+                    createDate = createDate.substring(0, 10);
+                    var time = createDate.split("-");
+                    createDate = time[0] + "年" + time[1] + "月" + time[2] + "日";
+                    var userId = list [index].userId;
                     var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
                     $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
                     $trTemp.append("<td>" + title + "</td>");
@@ -117,8 +125,36 @@
                     $trTemp.append("<td>" + userId + "</td>");
                     $trTemp.append("<td>" + remake + "</td>");
                     $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
-                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id +"\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id + "\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");
                     $trTemp.appendTo("#tbody");
+                    count = index;
+                });
+
+                Page({
+                    num: json.lastPage,					//页码数
+                    startnum: json.pageNum,		//指定页码
+                    elem: $('#mypage'),		//指定的元素
+                    callback: function (n) {	//回调函数
+                        console.log(n + "  dailiwen");
+                        if (formData == null)
+                            formData = new FormData();
+                        formData.delete("pageNum");
+                        formData.append("pageNum", n);
+                        $.ajax({
+                            url: url,
+                            type: type,
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            dataType: "json",
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.ligerDialog.error("出错了，请与管理员联系！");
+                            },
+                            success: function (res) {
+                                loadData(res, url, type, formData);
+                            }
+                        });
+                    }
                 });
 
                 $(function () {
@@ -226,22 +262,21 @@
                 <tbody>
                 <tr>
                     <td style="COLOR: #0061de; MARGIN-RIGHT: 3px; PADDING-TOP: 2px; TEXT-DECORATION: none">
-                        <span class="disabled">上一页</span><span class="current">1</span><span
-                            class="disabled">下一页</span>&nbsp;跳转到&nbsp;&nbsp;<input
-                            style="text-align: center;BORDER-RIGHT: #aaaadd 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #aaaadd 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #aaaadd 1px solid; COLOR: #000099; PADDING-TOP: 2px; BORDER-BOTTOM: #aaaadd 1px solid; TEXT-DECORATION: none"
-                            type="text" size="2" id="pager_jump_page_size">&nbsp;<input
-                            type="button"
-                            style="text-align: center;BORDER-RIGHT: #dedfde 1px solid; PADDING-RIGHT: 6px; BACKGROUND-POSITION: 50% bottom; BORDER-TOP: #dedfde 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 2px; BORDER-LEFT: #dedfde 1px solid; COLOR: #0061de; MARGIN-RIGHT: 3px; PADDING-TOP: 2px; BORDER-BOTTOM: #dedfde 1px solid; TEXT-DECORATION: none"
-                            value="确定" id="pager_jump_btn"></td>
-                </tr>
-                <tr align="center">
-                    <td style="font-size:13px;"></td>
-                </tr>
-                <tr>
-                    <td style="COLOR: #0061de; MARGIN-RIGHT: 3px; PADDING-TOP: 2px; TEXT-DECORATION: none">
-                        总共<font color="red">1</font>条记录，当前显示1-1条记录。
+                        <div>
+                            <ul class="pagination" id="mypage">
+                            </ul>
+                            <!--                            <div class="pageJump">-->
+                            <!--                                <span>跳转到</span>-->
+                            <!--                                <label>-->
+                            <!--                                    <input type="text"/>-->
+                            <!--                                </label>-->
+                            <!--                                <span>页</span>-->
+                            <!--                                <button type="button" class="button">确定</button>-->
+                            <!--                            </div>-->
+                        </div>
                     </td>
                 </tr>
+
                 </tbody>
             </table>
         </td>
