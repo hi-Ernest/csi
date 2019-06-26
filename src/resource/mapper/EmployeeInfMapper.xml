@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.team.dao.EmployeeInfMapper">
+  <resultMap id="BaseResultMap" type="edu.team.entity.EmployeeInf">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="job_id" jdbcType="INTEGER" property="jobId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="party" jdbcType="VARCHAR" property="party" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="race" jdbcType="VARCHAR" property="race" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+  </resultMap>
+
+    <select id="findAllEmployeeInf" resultMap="BaseResultMap">
+        select *
+        from employee_inf
+    </select>
+
+  <select id="findEmployeeInfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee_inf
+    where id = #{id}
+  </select>
+
+
+
+  <delete id="deleteEmployeeInfById" parameterType="java.lang.Integer">
+    delete
+    from employee_inf
+    where id = #{id}
+  </delete>
+
+
+  <insert id="addEmployeeInf" parameterType="edu.team.entity.EmployeeInf">
+    insert into employee_inf
+    (dept_id,
+    job_id,`name`,
+    card_id, address,
+    post_code, tel,
+    phone, qq_num,
+    email, sex,
+    party, birthday,
+    race, education,
+    speciality, hobby,
+    remake, create_date)
+    values (#{emp.deptId}, #{emp.jobId},
+      #{emp.name}, #{emp.cardId}, #{emp.address},
+      #emp.postCode}, #{emp.tel}, #{emp.phone},
+      #{emp.qqNum}, #{emp.email}, #{emp.sex},
+      #{emp.party}, #{emp.birthday}, #{emp.race},
+      #{emp.education}, #{emp.speciality}, #{emp.hobby},
+      #{emp.remake}, CURRENT_TIMESTAMP)
+  </insert>
+
+
+
+  <update id="editEmployeeInfById" parameterType="edu.team.entity.EmployeeInf">
+    update employee_inf
+    set dept_id = #{emp.deptId},
+      job_id = #{emp.jobId},
+      `name` = #{emp.name},
+      card_id = #{emp.cardId},
+      address = #{emp.address},
+      post_code = #{emp.postCode},
+      tel = #{emp.tel},
+      phone = #{emp.phone},
+      qq_num = #{emp.qqNum},
+      email = #{emp.email},
+      sex = #{emp.sex},
+      party = #{emp.party},
+      birthday = #{emp.birthday},
+      race = #{emp.race},
+      education = #{emp.education},
+      speciality = #{emp.speciality},
+      hobby = #{emp.hobby},
+      remake = #{emp.remake}
+    where id = #{emp.id}
+  </update>
+
+
+  <!--  <select id="countByExample" parameterType="pojo.EmployeeInfExample" resultType="java.lang.Long">-->
+  <!--    select count(*) from employee_inf-->
+  <!--    <if test="_parameter != null">-->
+  <!--      <include refid="Example_Where_Clause" />-->
+  <!--    </if>-->
+  <!--  </select>-->
+
+
+</mapper>
