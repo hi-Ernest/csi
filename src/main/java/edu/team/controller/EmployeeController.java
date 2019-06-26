@@ -2,12 +2,12 @@ package edu.team.controller;
 
 import edu.team.entity.EmployeeInf;
 import edu.team.service.EmployeeService;
-import net.sf.json.JSONObject;
+import edu.team.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmployeeController {
@@ -15,23 +15,41 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    //待测试...
+    
+
+    /**
+     * 查询所有员工信息
+     * 完成
+     */
     @RequestMapping(value = "/findAllEmployee", method = RequestMethod.GET)
     public List<EmployeeInf> findAllEmployee() {
 
         List<EmployeeInf> list = employeeService.findALlEmployeeInf();
 
-        System.out.println(list.size());
-
-        for (EmployeeInf emp2: list) {
-            System.out.println(emp2.toString());
-        }
-
         return list;
     }
 
+    /**
+     * 员工信息删除
+     * 成功
+     */
+    @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
+    public String deleteEmployee(String ids) {
 
-    //待测试...
+        String result;
+        String[] id = ids.split(",");
+        for (int i = 0; i < id.length; i++) {
+            result = employeeService.deleteEmployeeInfById(Integer.valueOf(id[i]));
+            if ("FAIL".equals(result)) {
+                return JacksonUtil.objectToJson("FAIL");
+            }
+        }
+        return JacksonUtil.objectToJson("SUCCESS");
+    }
+
+
+
+    //点击记录-----弹出信息
     @RequestMapping("/findEmployeeById")
     public void findEmployeeById() {
 
@@ -40,29 +58,37 @@ public class EmployeeController {
 
     }
 
+    //增加页面前加载
+    @RequestMapping(value="/showAddEmployee", method = RequestMethod.GET)
+    public String addEmployee() {
 
-    @RequestMapping(value="/addEmployee", method = RequestMethod.POST)
-    @ResponseBody
-    public String addEmployee(@RequestBody String employee) {
 
-        System.out.println(employee);
 
-        JSONObject jsonObject = JSONObject.fromObject(employee);
-        System.out.println(jsonObject.toString());
-
-        employeeService.addEmployeeInf(jsonObject);
+        employeeService.addEmployeeInf(map);
 
         return "SUCCESS";
     }
 
 
-    /**
-     * 员工信息删除
-     */
-    @RequestMapping("deleteEmployee")
-    public void deleteEmployee() {
-        employeeService.deleteEmployeeInfById(22);
+
+
+
+    //增加
+    @RequestMapping(value="/addEmployee", method = RequestMethod.POST)
+    @ResponseBody
+    public String addEmployee(@RequestBody String employee) {
+
+        System.out.println(" ********************************** ");
+        System.out.println(employee);
+
+        Map<String, Object> map = JacksonUtil.jsonToMap(employee);
+
+        employeeService.addEmployeeInf(map);
+
+        return "SUCCESS";
     }
+
+
 
     /**
      * 员工信息编辑

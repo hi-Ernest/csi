@@ -2,7 +2,9 @@ package edu.team.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.team.entity.EmployeeInf;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +39,7 @@ public class JacksonUtil {
      * @param json
      * @return
      */
-    public static Map<String, Object> jsonToMap(String json) {
+        public static Map<String, Object> jsonToMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> map = null;
         try {
@@ -91,11 +93,11 @@ public class JacksonUtil {
         return json;
     }
 
-//    public static List<Note> jsonToLis2t(String json) {
+//    public static List<EmployeeInf> jsonToLis2t(String json) {
 //        ObjectMapper mapper = new ObjectMapper();
-//        List<Note> notes = null;
+//        List<EmployeeInf> notes = null;
 //        try {
-//            JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, Note.class);
+//            JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, EmployeeInf.class);
 //            notes = mapper.readValue(json, javaType);
 //        } catch (IOException e) {
 //            e.printStackTrace();

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 import edu.team.service.LoginService;
-import edu.team.util.Message;
 
 /**
  * 登录界面Controller层

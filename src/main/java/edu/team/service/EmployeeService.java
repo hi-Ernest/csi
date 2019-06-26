@@ -1,9 +1,9 @@
 package edu.team.service;
 
 import edu.team.entity.EmployeeInf;
-import net.sf.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeService {
 
@@ -13,10 +13,10 @@ public interface EmployeeService {
     EmployeeInf findEmployeeInfById(int id);
 
     //添加职位
-    boolean addEmployeeInf(JSONObject empJson);
+    String addEmployeeInf(Map<String, Object> map);
 
     //删除员工
-    boolean deleteEmployeeInfById(Integer id);
+    String deleteEmployeeInfById(Integer id);
 
     //修改员工
     boolean editEmployeeInfById(EmployeeInf emp);

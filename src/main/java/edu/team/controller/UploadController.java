@@ -12,13 +12,12 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import edu.team.entity.Document;
 import edu.team.service.DocumentService;
 import edu.team.util.EntityIDFactory;
-import edu.team.util.MessageFactory;
+import edu.team.util.JacksonUtil;
 
 /**
  * @author dailiwen
@@ -63,5 +62,18 @@ public class UploadController {
     @RequestMapping(value = "getAllDocument", method = RequestMethod.GET)
     public List<Document> getAllDocument() {
         return documentService.findAllDocument();
+    }
+
+    @RequestMapping(value = "deleteDocumentFromId", method = RequestMethod.POST)
+    public String deleteDocumentFromId(String ids) {
+        String result;
+        String[] id = ids.split(",");
+        for (int i = 0; i < id.length; i++) {
+            result = documentService.deleteDocumentFromId(Integer.valueOf(id[i]));
+            if ("FAIL".equals(result)) {
+                return JacksonUtil.objectToJson("FAIL");
+            }
+        }
+        return JacksonUtil.objectToJson("SUCCESS");
     }
 }

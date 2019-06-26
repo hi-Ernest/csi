@@ -43,6 +43,14 @@ public class EmployeeInf {
 
     private String createDate;
 
+
+    private String jobName;
+
+    private String deptName;
+
+    private String sexName;
+
+
     public EmployeeInf() {
     }
 
@@ -227,6 +235,21 @@ public class EmployeeInf {
         this.remake = remake == null ? null : remake.trim();
     }
 
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
 
     public String getCreateDate() {
         return createDate;
@@ -234,6 +257,15 @@ public class EmployeeInf {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+
+    public String getSexName() {
+        return sexName;
+    }
+
+    public void setSexName(String sexName) {
+        this.sexName = sexName;
     }
 
     @Override

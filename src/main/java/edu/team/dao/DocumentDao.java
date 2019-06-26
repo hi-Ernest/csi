@@ -18,9 +18,9 @@ public interface DocumentDao {
 
      List<Document> findDocumentFromTitle(String title);
 
-     String deleteDocumentFromId(Integer id);
+     void deleteDocumentFromId(Integer id);
 
-     String addDocument(String title, String fileName, String remake, Timestamp createData, Integer userId);
+     void addDocument(String title, String fileName, String remake, Timestamp createData, Integer userId);
 
-     String updateDocument(String title, String createData, String userId, String remake, String id);
+     void updateDocument(String title, String createData, String userId, String remake, String id);
 }

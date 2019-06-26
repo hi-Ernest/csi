@@ -23,10 +23,10 @@ public interface EmployeeInfMapper {
 
 
     //添加职位
-    boolean addEmployeeInf(@Param("emp") EmployeeInf emp);
+    void addEmployeeInf(@Param("emp") EmployeeInf emp);
 
     //删除员工
-    boolean deleteEmployeeInfById(Integer id);
+    void deleteEmployeeInfById(Integer id);
 
     //修改员工
     boolean editEmployeeInfById(@Param("emp") EmployeeInf emp);
