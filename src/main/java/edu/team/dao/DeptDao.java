@@ -13,7 +13,7 @@ public interface DeptDao {
 	public List<Dept> selectDept(String name);
 	public void updateDept(Dept dept);
 	public void insertDept(Dept dept);
-	public void deleteDept(String name);
+	public void deleteDept(int id);
 	public List<Dept> selectDeptAll();
 
 }

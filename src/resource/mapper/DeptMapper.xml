@@ -20,8 +20,8 @@
     </select>
     
     <!-- 删除dept_inf -->
-    <delete id="deleteDept" parameterType="String" >
-        delete FROM dept_inf WHERE name = #{name,jdbcType=VARCHAR};
+    <delete id="deleteDept" parameterType="Integer" >
+        delete FROM dept_inf WHERE id = #{id,jdbcType=VARCHAR};
     </delete>
     
     <!-- 添加dept_inf -->
