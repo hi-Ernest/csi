@@ -63,7 +63,7 @@ public class UploadController {
             docFile.transferTo(localFile);
             //System.out.println("上传成功");
             Timestamp timestamp = new Timestamp(new Date().getTime());
-            String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, 1);
+            String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, Integer.valueOf((String) session.getAttribute("loginId")));
             if ("SUCCESS".equals(result)) {
                 return "SUCCESS";
             } else {
@@ -83,11 +83,12 @@ public class UploadController {
     }
 
     @RequestMapping(value = "getDocumentFromTitle", method = RequestMethod.POST)
-    public List<Document> getDocumentFromTitle(String title) {
+    public PageInfo<Document> getDocumentFromTitle(String title, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
         if ("".equals(title) || null == title) {
-            return documentService.findAllDocument();
+            return new PageInfo<Document>(documentService.findAllDocument());
         } else {
-            return documentService.findDocumentFromTitle(title);
+            return new PageInfo<Document>(documentService.findDocumentFromTitle(title));
         }
     }
 

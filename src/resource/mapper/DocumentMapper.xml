@@ -36,7 +36,7 @@
 		FROM
 			document_inf
 		WHERE
-			document_inf.title = #{title};
+			document_inf.title = #{title}
 	</select>
 
 	<!-- 通过id查询单个文档 -->
@@ -51,7 +51,7 @@
 		FROM
 			document_inf
 		WHERE
-			document_inf.id = #{id};
+			document_inf.id = #{id}
 	</select>
 
 	<!-- 通过id删除单个文档 -->
@@ -60,7 +60,7 @@
 		FROM
 			document_inf
 		WHERE
-			id = #{id};
+			id = #{id}
 	</delete>
 
 	<!-- 增加单个文档信息 -->
@@ -73,7 +73,7 @@
 			document_inf.user_id
 		)
 		VALUES
-			(#{title}, #{fileName}, #{remake}, #{createData}, #{userId});
+			(#{title}, #{fileName}, #{remake}, #{createData}, #{userId})
 	</insert>
 
 	<!-- 编辑文档信息 -->
@@ -84,6 +84,16 @@
 		 document_inf.user_id = #{userId},
 		 document_inf.remake = #{remake}
 		WHERE
-			id = #{id};
+			id = #{id}
 	</update>
+
+	<!-- 通过id用户名 -->
+	<select id="findUserNameFromId" parameterType="Integer"  resultType="String">
+		SELECT
+			user_inf.login_name
+		FROM
+			user_inf
+		WHERE
+			user_inf.id = #{id}
+	</select>
 </mapper>
