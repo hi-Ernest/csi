@@ -23,7 +23,7 @@
 	var id=UrlParam.paramValues("id");
 	var name=UrlParam.paramValues("name");
 	var remake=UrlParam.paramValues("remake");
-	
+	$("#name").value(name);
 	function submit(){
 	    	/** 部门表单提交 */
 			//$("#deptForm").submit(function(){
@@ -92,8 +92,8 @@
 		    <tr><td class="font3 fftd">
 		    	<table>
 		    		<tr>
-		    			<td class="font3 fftd">部门名称：<input type="text" name="name" id="name" size="20" value= /></td>
-		    			<td class="font3 fftd">详细描述：<input type="text" name="remark" id="remark" size="20" value="+remake+"/></td>
+		    			<td class="font3 fftd">部门名称：<input type="text" name="name" id="name" size="20"  /></td>
+		    			<td class="font3 fftd">详细描述：<input type="text" name="remark" id="remark" size="20" /></td>
 		    		</tr>
 		    			
 		    	</table>
