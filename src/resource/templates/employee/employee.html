@@ -21,48 +21,97 @@
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
 
 	<script type="text/javascript">
-	       $(function(){
-	    	   /** 获取上一次选中的部门数据 */
-	    	   var boxs  = $("input[type='checkbox'][id^='box_']");
-	    	   
-	    	   /** 给全选按钮绑定点击事件  */
-		    	$("#checkAll").click(function(){
-		    		// this是checkAll  this.checked是true
-		    		// 所有数据行的选中状态与全选的状态一致
-		    		boxs.attr("checked",this.checked);
-		    	})
-		    	
-	    	   /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
-		    	$("tr[id^='data_']").hover(function(){
-		    		$(this).css("backgroundColor","#eeccff");
-		    	},function(){
-		    		$(this).css("backgroundColor","#ffffff");
-		    	})
-		    	
-		    	
-	    	   /** 删除员工绑定点击事件 */
-	    	   $("#delete").click(function(){
-	    		   /** 获取到用户选中的复选框  */
-	    		   var checkedBoxs = boxs.filter(":checked");
-	    		   if(checkedBoxs.length < 1){
-	    			   $.ligerDialog.error("请选择一个需要删除的员工！");
-	    		   }else{
-	    			   /** 得到用户选中的所有的需要删除的ids */
-	    			   var ids = checkedBoxs.map(function(){
-	    				   return this.value;
-	    			   })
-	    			   
-	    			   $.ligerDialog.confirm("确认要删除吗?","删除员工",function(r){
-	    				   if(r){
-	    					   // alert("删除："+ids.get());
-	    					   // 发送请求
-	    					   //window.location = "${ctx }/employee/removeEmployee?ids=" + ids.get();
-	    				   }
-	    			   });
-	    		   }
-	    	   })
-	       })
+		$(function () {
+			$.ajax({
+				url: "../findAllEmployee",
+				type: "get",
+				dataType: "json",
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					$.MsgBox.Alert("消息", "出错了，请于管理员联系");
+				},
+				success: function (res) {
+					console.log(res);
+					var json = eval(res);
+					$("#tbody").empty();
+					$.each(json, function (index, item) {
+						//循环获取数据
+						var id = json[index].id;
+						var name = json[index].name;
+						var sex = json[index].sex;
+						var phone = json[index].phone;
+						var email = json[index].email;
+						var job = json[index].jodId;
+						var education = json[index].education;
+						var cardId = json[index].cardId;
+						var deptId = json[index].deptId;
+						var address = json[index].address;
+						var createDate = json[index].createDate;
+
+
+						var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+						$trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + index + "\" id=\"box_" + index + "\">" + "</td>");
+						$trTemp.append("<td>" + name + "</td>");
+						$trTemp.append("<td>" + sex + "</td>");
+						$trTemp.append("<td>" + phone + "</td>");
+						$trTemp.append("<td>" + email + "</td>");
+						$trTemp.append("<td>" + job + "</td>");
+						$trTemp.append("<td>" + education + "</td>");
+						$trTemp.append("<td>" + cardId + "</td>");
+						$trTemp.append("<td>" + deptId + "</td>");
+						$trTemp.append("<td>" + address + "</td>");
+						$trTemp.append("<td>" + createDate + "</td>");
+						$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateEmployee.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+						$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "</a>" + "</td>");
+						$trTemp.appendTo("#tbody");
+					});
+
+					$(function () {
+						/** 获取上一次选中的部门数据 */
+						var boxs = $("input[type='checkbox'][id^='box_']");
+
+						/** 给全选按钮绑定点击事件  */
+						$("#checkAll").click(function () {
+							// this是checkAll  this.checked是true
+							// 所有数据行的选中状态与全选的状态一致
+							boxs.attr("checked", this.checked);
+						})
+
+						/** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+						$("tr[id^='data_']").hover(function () {
+							$(this).css("backgroundColor", "#eeccff");
+						}, function () {
+							$(this).css("backgroundColor", "#ffffff");
+						})
+
+
+						/** 删除员工绑定点击事件 */
+						$("#delete").click(function () {
+							/** 获取到用户选中的复选框  */
+							var checkedBoxs = boxs.filter(":checked");
+							if (checkedBoxs.length < 1) {
+								$.ligerDialog.error("请选择一个需要删除的员工！");
+							} else {
+								/** 得到用户选中的所有的需要删除的ids */
+								var ids = checkedBoxs.map(function () {
+									return this.value;
+								})
+
+								$.ligerDialog.confirm("确认要删除吗?", "删除员工", function (r) {
+									if (r) {
+										// alert("删除："+ids.get());
+										// 发送请求
+										//window.location = "${ctx }/employee/removeEmployee?ids=" + ids.get();
+									}
+								});
+							}
+						})
+					})
+				}
+			})
+		})
+
 	</script>
+
 </head>
 <body>
 	<!-- 导航 -->
@@ -128,102 +177,26 @@
 	  <tr valign="top">
 	    <td height="20">
 		  <table width="100%" border="1" cellpadding="5" cellspacing="0" style="border:#c2c6cc 1px solid; border-collapse:collapse;">
-		    <tbody><tr class="main_trbg_tit" align="center">
-			  <td><input type="checkbox" name="checkAll" id="checkAll"></td>
-			  <td>姓名</td>
-			  <td>性别</td>
-			  <td>手机号码</td>
-			  <td>邮箱</td>
-			  <td>职位</td>
-			  <td>学历</td>
-			  <td>身份证号码</td>
-			  <td>部门</td>
-			  <td>联系地址</td>
-			  <td>建档日期</td>
-			  
-			  <td align="center">操作</td>
-			   
-			</tr>
-			
-				<tr id="data_0" class="main_trbg" align="center" style="background-color: rgb(255, 255, 255);">
-					<td><input type="checkbox" id="box_0" value="1"></td>
-					 <td>爱丽丝</td>
-					  <td>
-					        
-					        	
-					        	女
-					        
-					  </td>
-					  <td>13902001111</td>
-					  <td>251425887@qq.com</td>
-					  <td>经理</td>
-					  <td>本科</td>
-					  <td>4328011988</td>
-					  <td>技术部</td>
-					  <td>广州天河</td>
-					  <td>
-					  	2016年3月14日
-					  </td>
-					  
-					  <td align="center" width="40px;"><a href="showUpdateEmployee.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					   
+			    <thead>
+				<tr class="main_trbg_tit" align="center">
+					<td><input type="checkbox" name="checkAll" id="checkAll"></td>
+					<td>姓名</td>
+					<td>性别</td>
+					<td>手机号码</td>
+					<td>邮箱</td>
+					<td>职位</td>
+					<td>学历</td>
+					<td>身份证号码</td>
+					<td>部门</td>
+					<td>联系地址</td>
+					<td>建档日期</td>
+					<td align="center">操作</td>
 				</tr>
-			
-				<tr id="data_1" class="main_trbg" align="center" style="background-color: rgb(255, 255, 255);">
-					<td><input type="checkbox" id="box_1" value="2"></td>
-					 <td>杰克</td>
-					  <td>
-					        
-					        	
-					        	女
-					        
-					  </td>
-					  <td>4247242</td>
-					  <td>251425887@qq.com</td>
-					  <td>职员</td>
-					  <td></td>
-					  <td>22623</td>
-					  <td>运营部</td>
-					  <td>43234</td>
-					  <td>
-					  	2016年3月14日
-					  </td>
-					  
-					  <td align="center" width="40px;"><a href="showUpdateEmployee.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					   
-				</tr>
-			
-				<tr id="data_2" class="main_trbg" align="center" style="background-color: rgb(255, 255, 255);">
-					<td><input type="checkbox" id="box_2" value="23"></td>
-					 <td>邹格明</td>
-					  <td>
-					        
-					        	男
-					        	
-					        
-					  </td>
-					  <td>13123455678</td>
-					  <td>11@163.com</td>
-					  <td>职员</td>
-					  <td>大专</td>
-					  <td>210303198001010010</td>
-					  <td>技术部</td>
-					  <td>大连</td>
-					  <td>
-					  	2019年4月11日
-					  </td>
-					  
-					  <td align="center" width="40px;"><a href="showUpdateEmployee.html">
-							<img title="修改" src="../images/update.gif"></a>
-					  </td>
-					   
-				</tr>
-			
-		  </tbody></table>
+				</thead>
+<!--					<tr id="data_0" class="main_trbg" align="center" style="background-color: rgb(255, 255, 255);">-->
+<!--					</tr>-->
+			  <tbody id="tbody"></tbody>
+		  </table>
 		</td>
 	  </tr>
 	  <!-- 分页标签 -->

@@ -1,9 +1,18 @@
 package edu.team.controller;
 
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import edu.team.entity.User;
 import edu.team.service.UserService;
@@ -12,16 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 项目初始control层示例
  */
-@Controller
+
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/test")
-    public User test() {
-        return userService.getUser(1);
-    }
+    @RequestMapping(value="add",method=RequestMethod.POST)
+	public void add(String username,int status,String loginname, String password) {
+		User user=new User();
+		user.setUserName(username);
+		user.setStatus(status);
+		user.setLoginName(loginname);
+		user.setPassword(password);
+		userService.add(username,status,loginname,password);
+	}
 
     @RequestMapping("/m")
     public ModelAndView testMode() {

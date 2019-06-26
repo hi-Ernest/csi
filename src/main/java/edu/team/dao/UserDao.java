@@ -3,6 +3,8 @@ package edu.team.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import edu.team.entity.User;
 /**
  * 用户Dao层
@@ -12,9 +14,9 @@ import edu.team.entity.User;
 @Mapper
 public interface UserDao {
 	
-    public void add(User user);
+	public void add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password);
     
-    public void edit(User user);
+    public void edit(Integer id);
     
     public void delete(Integer id);
     
@@ -24,5 +26,5 @@ public interface UserDao {
     
     public List<User> queryByUsername(String username);
     
-    public List<User> findAllUsers();
+    public List<User> findAll();
 }

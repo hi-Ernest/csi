@@ -17,13 +17,14 @@ public interface UserService {
 
 	/**
 	 * 增加用户
+	 * @return 
 	 */
-	public void addUser(User user);
+	public void add(String username, Integer status, String loginname, String password);
 
 	/**
 	 * 修改用户
 	 */
-	public void editUser(User user);
+	public void editUser(Integer id);
 
 	/**
 	 * 删除用户
@@ -40,4 +41,9 @@ public interface UserService {
 	 * 获取用户列表
 	 */
 	public List<User> queryUsers(String username);
+	/**
+	 * 获取全部用户
+	 */
+	public List<User> findAllUsers();
+
 }

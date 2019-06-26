@@ -30,14 +30,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUser(User user) {
-		userDao.add(user);
+	public void add( String username, Integer status, String loginname, String password) {
+		userDao.add(username,status,loginname,password);
 		
 	}
 
 	@Override
-	public void editUser(User user) {
-		userDao.edit(user);
+	public void editUser( Integer id) {
+		userDao.edit(id);
 		
 	}
 
@@ -55,7 +55,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> queryUsers(String username) {
 		if(username == null || "".equals(username))
-            return userDao.findAllUsers();
+            return userDao.findAll();
         else return userDao.queryByUsername(username);
-	}		
+	}
+	
+	@Override
+	public List<User> findAllUsers(){
+		return userDao.findAll();
+	}
 }
