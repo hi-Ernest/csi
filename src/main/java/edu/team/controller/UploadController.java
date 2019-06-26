@@ -65,14 +65,25 @@ public class UploadController {
             Timestamp timestamp = new Timestamp(new Date().getTime());
             String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, Integer.valueOf((String) session.getAttribute("loginId")));
             if ("SUCCESS".equals(result)) {
-                return "SUCCESS";
+                return JacksonUtil.objectToJson("SUCCESS");
             } else {
-                return "FAIL";
+                return JacksonUtil.objectToJson("FAIL");
             }
         } catch (IOException e) {
             System.out.println("上传失败 - " + e);
         }
-        return "FAIL";
+        return JacksonUtil.objectToJson("FAIL");
+    }
+
+    @RequestMapping(value = "fileUpdate", method = RequestMethod.POST)
+    public String fileUpdate(String id, String docTitle, String docDetail, MultipartFile docFile, HttpSession session) {
+        String result = upload(docTitle, docDetail, docFile, session);
+        if (JacksonUtil.objectToJson("SUCCESS").equals(result)) {
+            result = deleteDocumentFromId(id);
+            if (JacksonUtil.objectToJson("SUCCESS").equals(result))
+                return JacksonUtil.objectToJson("SUCCESS");
+        }
+        return JacksonUtil.objectToJson("FAIL");
     }
 
     @RequestMapping(value = "getAllDocument", method = RequestMethod.POST)
@@ -103,6 +114,11 @@ public class UploadController {
             }
         }
         return JacksonUtil.objectToJson("SUCCESS");
+    }
+
+    @RequestMapping(value = "getDocumentFromId", method = RequestMethod.POST)
+    public Document getDocumentFromId(String id) {
+        return documentService.findDocumentFromId(Integer.valueOf(id));
     }
 
     @GetMapping("download")

@@ -5,10 +5,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import edu.team.entity.User;
 import edu.team.service.LoginService;
+import edu.team.util.JacksonUtil;
 
 /**
  * 登录界面Controller层
@@ -38,5 +42,19 @@ public class LoginController {
         } else {
             return "FAIL";
         }
+    }
+
+    @RequestMapping(value = "loginOut", method = RequestMethod.POST)
+    public String loginOut(HttpServletRequest request) {
+        try {
+            Enumeration em = request.getSession().getAttributeNames();
+            while(em.hasMoreElements()){
+                request.getSession().removeAttribute(em.nextElement().toString());
+            }
+            return JacksonUtil.objectToJson("SUCCESS");
+        } catch (Exception e) {
+            return JacksonUtil.objectToJson("FAIL");
+        }
+
     }
 }

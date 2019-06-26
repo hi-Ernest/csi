@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.team.dao.NoticeDao;
-import edu.team.entity.Document;
+import edu.team.entity.Notice;
 import edu.team.service.NoticeService;
 
 /**
@@ -22,23 +22,37 @@ public class NoticeServiceImpl implements NoticeService {
     NoticeDao noticeDao;
 
     @Override
-    public List<Document> findAllNotice() {
-        return null;
+    public List<Notice> findAllNotice() {
+        List<Notice> notices = noticeDao.findAllNotice();
+        for (int i = 0; i < notices.size(); i++) {
+            notices.get(i).setUserName(noticeDao.findUserNameFromId(notices.get(i).getUserId()));
+        }
+        return notices;
     }
 
     @Override
-    public List<Document> findNoticeFromTitle(String title) {
-        return null;
+    public List<Notice> getNoticeFromInfo(String title, String content) {
+        List<Notice> notices = noticeDao.findNoticeFromInfo(title, content);
+        for (int i = 0; i < notices.size(); i++) {
+            notices.get(i).setUserName(noticeDao.findUserNameFromId(notices.get(i).getUserId()));
+        }
+        return notices;
     }
 
     @Override
-    public Document findNoticeFromId(Integer id) {
+    public Notice findNoticeFromId(Integer id) {
         return null;
     }
 
     @Override
     public String deleteNoticeFromId(Integer id) {
-        return null;
+        try {
+            noticeDao.deleteNoticeFromId(id);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
     }
 
     @Override
