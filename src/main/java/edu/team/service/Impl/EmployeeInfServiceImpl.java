@@ -2,7 +2,10 @@ package edu.team.service.Impl;
 
 import edu.team.dao.EmployeeInfMapper;
 import edu.team.entity.EmployeeInf;
+import edu.team.entity.Job;
+import edu.team.service.DeptServcie;
 import edu.team.service.EmployeeService;
+import edu.team.service.JobService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +18,23 @@ public class EmployeeInfServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeInfMapper employeeInfMapper;
 
+    @Autowired
+    private JobService jobService;
+
+    @Autowired
+    private DeptServcie deptServcie;
+
     @Override
     public List<EmployeeInf> findALlEmployeeInf() {
-        return employeeInfMapper.findAllEmployeeInf();
+
+        List<EmployeeInf> list = employeeInfMapper.findAllEmployeeInf();
+
+        for(EmployeeInf emp : list ) {
+            emp.setJobName(jobService.selectNameById(emp.getJobId()));
+            emp.setDeptName(deptServcie.selectNameById(emp.getDeptId()));
+        }
+
+        return list;
     }
 
     @Override
