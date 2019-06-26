@@ -2,9 +2,7 @@ package edu.team.controller;
 
 import edu.team.entity.EmployeeInf;
 import edu.team.service.EmployeeService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,11 +44,11 @@ public class EmployeeController {
     public String addEmployee(@RequestBody String employee) {
 
         System.out.println(employee);
-
-        JSONObject jsonObject = JSONObject.fromObject(employee);
-        System.out.println(jsonObject.toString());
-
-        employeeService.addEmployeeInf(jsonObject);
+//
+//        JSONObject jsonObject = JSONObject.fromObject(employee);
+//        System.out.println(jsonObject.toString());
+//
+//        employeeService.addEmployeeInf(jsonObject);
 
         return "SUCCESS";
     }
