@@ -32,7 +32,13 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public String deleteDocumentFromId(Integer id) {
-        return null;
+        try {
+            documentDao.deleteDocumentFromId(id);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
     }
 
     @Override

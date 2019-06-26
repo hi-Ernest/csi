@@ -3,6 +3,7 @@ package edu.team.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import edu.team.entity.Document;
 import edu.team.service.DocumentService;
 import edu.team.util.EntityIDFactory;
+import edu.team.util.JacksonUtil;
 import edu.team.util.MessageFactory;
 
 /**
@@ -63,5 +65,18 @@ public class UploadController {
     @RequestMapping(value = "getAllDocument", method = RequestMethod.GET)
     public List<Document> getAllDocument() {
         return documentService.findAllDocument();
+    }
+
+    @RequestMapping(value = "deleteDocumentFromId", method = RequestMethod.POST)
+    public String deleteDocumentFromId(String ids) {
+        String result;
+        String[] id = ids.split(",");
+        for (int i = 0; i < id.length; i++) {
+            result = documentService.deleteDocumentFromId(Integer.valueOf(id[i]));
+            if ("FAIL".equals(result)) {
+                return JacksonUtil.objectToJson("FAIL");
+            }
+        }
+        return JacksonUtil.objectToJson("SUCCESS");
     }
 }
