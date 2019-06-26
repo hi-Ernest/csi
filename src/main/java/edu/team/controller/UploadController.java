@@ -1,9 +1,13 @@
 package edu.team.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,9 +75,11 @@ public class UploadController {
         return "FAIL";
     }
 
-    @RequestMapping(value = "getAllDocument", method = RequestMethod.GET)
-    public List<Document> getAllDocument() {
-        return documentService.findAllDocument();
+    @RequestMapping(value = "getAllDocument", method = RequestMethod.POST)
+    public PageInfo<Document> getAllDocument(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        PageInfo<Document> pageInfo = new PageInfo<Document>(documentService.findAllDocument());
+        return pageInfo;
     }
 
     @RequestMapping(value = "getDocumentFromTitle", method = RequestMethod.POST)
