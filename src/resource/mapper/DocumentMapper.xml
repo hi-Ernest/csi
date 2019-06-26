@@ -24,8 +24,8 @@
 			document_inf
 	</select>
 
-    <!-- 通过标题查询单个文档 -->
-    <select id="findDocumentFromTitle" parameterType="string" resultMap="DocumentMap">
+    <!-- 通过标题查询文档 -->
+	<select id="findDocumentFromTitle" parameterType="string" resultMap="DocumentMap">
 		SELECT
 			document_inf.id,
 			document_inf.title,
@@ -36,7 +36,22 @@
 		FROM
 			document_inf
 		WHERE
-			document_inf.title = #{value};
+			document_inf.title = #{title};
+	</select>
+
+	<!-- 通过id查询单个文档 -->
+	<select id="findDocumentFromId" parameterType="Integer" resultMap="DocumentMap">
+		SELECT
+			document_inf.id,
+			document_inf.title,
+			document_inf.create_date,
+			document_inf.user_id,
+			document_inf.remake,
+			document_inf.file_name
+		FROM
+			document_inf
+		WHERE
+			document_inf.id = #{id};
 	</select>
 
     <!-- 通过id删除单个文档 -->

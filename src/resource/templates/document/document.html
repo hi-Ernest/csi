@@ -25,65 +25,10 @@
                 type: "get",
                 dataType: "json",
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+                    $.ligerDialog.error("出错了，请与管理员联系！");
                 },
                 success: function (res) {
-                    console.log(res);
-                    var json = eval(res);
-                    $("#tbody").empty();
-                    $.each(json, function (index, item) {
-                        //循环获取数据
-                        var id = json[index].id;
-                        var title = json[index].title;
-                        var fileName = json[index].fileName;
-                        var remake = json[index].remake;
-                        var createDate = json[index].createDate;
-                        var userId = json[index].userId;
-                        var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
-                        $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
-                        $trTemp.append("<td>" + title + "</td>");
-                        $trTemp.append("<td>" + createDate + "</td>");
-                        $trTemp.append("<td>" + userId + "</td>");
-                        $trTemp.append("<td>" + remake + "</td>");
-                        $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
-                        $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");
-                        $trTemp.appendTo("#tbody");
-                    });
-
-                    $(function () {
-                        boxs = $("input[type='checkbox'][id^='box_']");
-                        /** 给全选按钮绑定点击事件  */
-                        $("#checkAll").click(function () {
-                            // this是checkAll  this.checked是true
-                            // 所有数据行的选中状态与全选的状态一致
-                            boxs.attr("checked", this.checked);
-                        });
-
-                        /** 给每个数据行绑定点击事件：判断如果数据行都选中全选也应该选中，反之  */
-                        boxs.click(function (event) {
-                            /** 去掉复选按钮的事件传播：点击复选会触发行点击：因为复选在行中 */
-                            event.stopPropagation();
-
-                            /** 判断当前选中的数据行有多少个  */
-                            var checkedBoxs = boxs.filter(":checked");
-                            /** 判断选中的总行数是否等于总行数：以便控制全选按钮的状态   */
-                            $("#checkAll").attr("checked", checkedBoxs.length == boxs.length);
-                        });
-
-                        /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
-                        $("tr[id^='data_']").hover(function () {
-                            $(this).css("backgroundColor", "#eeccff");
-                        }, function () {
-                            $(this).css("backgroundColor", "#ffffff");
-                        }).click(function () {
-                            /** 控制该行是否需要被选中 */
-                            /** 获取此行的复选框id */
-                            var checkboxId = this.id.replace("data_", "box_");
-
-                            /** 触发本行的复选点击 */
-                            $("#" + checkboxId).trigger("click");
-                        });
-                    });
+                    loadData(res);
                 }
             });
 
@@ -105,10 +50,10 @@
                             $.ajax({
                                 url: "../deleteDocumentFromId",
                                 type: "post",
-                                dataType:"json",
+                                dataType: "json",
                                 async: false,
-                                processData : false, // 使数据不做处理
-                                contentType : false, // 不要设置Content-Type请求头
+                                processData: false, // 使数据不做处理
+                                contentType: false, // 不要设置Content-Type请求头
                                 data: formData,
                                 error: function (res) {
                                     console.log(res);
@@ -116,6 +61,7 @@
                                 },
                                 success: function (res) {
                                     if (res === "SUCCESS") {
+                                        //局部刷新，直接重载当前页面的body
                                         $("#main_body").load(location.href);
                                         console.log(location.href)
                                     } else {
@@ -129,17 +75,85 @@
                 }
             });
 
-            /** 下载文档功能 */
-            $("a[id^='down_']").click(function () {
-                /** 得到需要下载的文档的id */
-                var id = this.id.replace("down_", "");
-                console.log("id");
-                /** 下载该文档 */
-                //window.location = ""+id;
+            /** 搜索员工绑定点击事件 */
+            $("#search").click(function () {
+                var formData = new FormData();
+                formData.append("title", $("#title_search").val());
+                $.ajax({
+                    url: "../getDocumentFromTitle",
+                    type: "post",
+                    dataType: "json",
+                    async: false,
+                    processData: false, // 使数据不做处理
+                    contentType: false, // 不要设置Content-Type请求头
+                    data: formData,
+                    error: function (res) {
+                        console.log(res);
+                        $.ligerDialog.error("出错了，请与管理员联系！");
+                    },
+                    success: function (res) {
+                        loadData(res);
+                    }
+                });
             });
 
-            function down(id) {
-                $("a[id='down_" + id + "']").trigger("click");
+            //加载页面数据方法单独提出
+            function loadData(res) {
+                console.log(res);
+                var json = eval(res);
+                $("#tbody").empty();
+                $.each(json, function (index, item) {
+                    //循环获取数据
+                    var id = json[index].id;
+                    var title = json[index].title;
+                    var fileName = json[index].fileName;
+                    var remake = json[index].remake;
+                    var createDate = json[index].createDate;
+                    var userId = json[index].userId;
+                    var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+                    $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
+                    $trTemp.append("<td>" + title + "</td>");
+                    $trTemp.append("<td>" + createDate + "</td>");
+                    $trTemp.append("<td>" + userId + "</td>");
+                    $trTemp.append("<td>" + remake + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id +"\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");
+                    $trTemp.appendTo("#tbody");
+                });
+
+                $(function () {
+                    boxs = $("input[type='checkbox'][id^='box_']");
+                    /** 给全选按钮绑定点击事件  */
+                    $("#checkAll").click(function () {
+                        // this是checkAll  this.checked是true
+                        // 所有数据行的选中状态与全选的状态一致
+                        boxs.attr("checked", this.checked);
+                    });
+
+                    /** 给每个数据行绑定点击事件：判断如果数据行都选中全选也应该选中，反之  */
+                    boxs.click(function (event) {
+                        /** 去掉复选按钮的事件传播：点击复选会触发行点击：因为复选在行中 */
+                        event.stopPropagation();
+
+                        /** 判断当前选中的数据行有多少个  */
+                        var checkedBoxs = boxs.filter(":checked");
+                        /** 判断选中的总行数是否等于总行数：以便控制全选按钮的状态   */
+                        $("#checkAll").attr("checked", checkedBoxs.length == boxs.length);
+                    });
+
+                    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+                    $("tr[id^='data_']").hover(function () {
+                        $(this).css("backgroundColor", "#eeccff");
+                    }, function () {
+                        $(this).css("backgroundColor", "#ffffff");
+                    }).click(function () {
+                        /** 控制该行是否需要被选中 */
+                        /** 获取此行的复选框id */
+                        var checkboxId = this.id.replace("data_", "box_");
+                        /** 触发本行的复选点击 */
+                        $("#" + checkboxId).trigger("click");
+                    });
+                });
             }
         });
     </script>
@@ -172,8 +186,8 @@
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="font3">
-                                    标题：<input type="text" name="title"/>
-                                    <input type="submit" value="搜索"/>
+                                    标题：<input id="title_search" type="text" name="title"/>
+                                    <input id="search" type="button" value="搜索"/>
                                     <input type="button" id="delete" value="删除">
                                 </td>
                             </tr>
@@ -234,8 +248,5 @@
     </tr>
 </table>
 <div style="height:10px;"></div>
-<script type="text/javascript">
-
-</script>
 </body>
 </html>
