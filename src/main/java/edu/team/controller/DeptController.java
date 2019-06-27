@@ -11,11 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import edu.team.entity.Dept;
+import edu.team.entity.Document;
 import edu.team.service.DeptService;
 import edu.team.util.JacksonUtil;
 
@@ -30,15 +35,21 @@ public class DeptController {
     private DeptService deptService;
 	
 	@RequestMapping(value="/selectDept",method=RequestMethod.POST)
-	public List<Dept> selectDept(String name) {
-	   return deptService.selectDept(name);
+	public PageInfo<Dept> selectDept(String name, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+	   PageHelper.startPage(pageNum, 10);
+       if ("".equals(name) || null == name) {
+           return new PageInfo<Dept>(deptService.selectDeptAll());
+       } else {
+           return new PageInfo<Dept>(deptService.selectDept(name));
+       }
 	   
 	}
 	
-	@RequestMapping(value="/selectAllDept",method=RequestMethod.GET)
-	public List<Dept> selectAllDept() {
-		
-	    return deptService.selectDeptAll();
+	@RequestMapping(value="/selectAllDept",method=RequestMethod.POST)
+	public PageInfo<Dept> selectAllDept(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+		PageHelper.startPage(pageNum, 10);
+        PageInfo<Dept> pageInfo = new PageInfo<Dept>(deptService.selectDeptAll());
+        return pageInfo;
 	}
 	
 	@RequestMapping(value="/insertDept",method=RequestMethod.POST)

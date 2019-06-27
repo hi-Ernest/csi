@@ -11,9 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import edu.team.entity.Dept;
 import edu.team.entity.Job;
@@ -32,16 +36,21 @@ public class JobController {
     private JobService jobService;
 	
 	@RequestMapping(value="/selectJob",method=RequestMethod.POST)
-	public List<Job> selectJob(String name) {
-		
-	   return jobService.selectJob(name);
+	public PageInfo<Job> selectJob(String name, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+		 PageHelper.startPage(pageNum, 10);
+	       if ("".equals(name) || null == name) {
+	           return new PageInfo<Job>(jobService.selectJobAll());
+	       } else {
+	           return new PageInfo<Job>(jobService.selectJob(name));
+	       }
 	   
 	}
 	
-	@RequestMapping(value="/selectAllJob",method=RequestMethod.GET)
-	public List<Job> selectAllJob(){
-		
-	    return jobService.selectJobAll();
+	@RequestMapping(value="/selectAllJob",method=RequestMethod.POST)
+	public PageInfo<Job> selectAllJob(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum){
+		PageHelper.startPage(pageNum, 10);
+        PageInfo<Job> pageInfo = new PageInfo<Job>(jobService.selectJobAll());
+        return pageInfo;
 	}
 	
 	@RequestMapping(value="/insertJob",method=RequestMethod.POST)
