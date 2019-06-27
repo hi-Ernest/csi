@@ -26,61 +26,10 @@
 <link href="../css/pager.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript">
 	/** 员工表单提交 */
-
-	/**
-	$("#submit").on("click",function(){
-		alert("段落被点击了。");
-		var username = $("#username");
-		var status = $("#status");
-		var loginname = $("#loginname");
-		var password = $("#password");
-		var msg = "";
-		if ($.trim(username.val()) == ""){
-			msg = "姓名不能为空！";
-			username.focus();
-		}else if ($.trim(loginname.val()) == ""){
-			msg = "登录名不能为空！";
-			loginname.focus();
-		}else if($.trim(loginname.val()).length<6 || $.trim(loginname.val()).length>20){
-			msg = "登录名需要大于6位小于20位！";
-			loginname.focus();
-		}else if ($.trim(password.val()) == ""){
-			msg = "密码不能为空！";
-			password.focus();
-		}
-		if (msg != ""){
-			$.ligerDialog.error(msg);
-			return false;
-		}else{
-			return true;
-		}
-		//$("#userForm").submit();
-		$.ajax({
-	         url: "add",  
-	         type: 'POST',  
-	         dataType:JSON,
-	         data: {user_name:user_name.val(),
-	        	    status:status.val(),
-	        	    login_name:login_name.val(),
-	        	    password:password.val()
-	        	    },  
-	        	    error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    $.MsgBox.Alert("消息", "出错了，请于管理员联系");
-	                },
-	                success: function (res) {
-	                    console.log(res);
-	                    if (res == "SUCCESS") {
-	                    	 $.MsgBox.Alert("添加成功");
-	                    } else {
-	                        $.MsgBox.Alert("添加失败，请联系管理员");
-	                    }
-	                }
-	            });
-	});
-	 */
 	$(document).ready(
 			function() {
-				$("#submit").click(
+				$("#submit").on(
+						"click",
 						function() {
 							var username = $("#username");
 							var status = $("#status");
@@ -107,8 +56,8 @@
 							}
 
 							$.ajax({
+								url : "../add",
 								type : 'POST',
-								url : "http://localhost:10086/csi/add",
 								dataType : JSON,
 								data : {
 									username : username.val(),
@@ -116,25 +65,23 @@
 									loginname : loginname.val(),
 									password : password.val()
 								},
-								error : function(XMLHttpRequest, textStatus,
-										errorThrown) {
-									//$.MsgBox.alert("消息", "出错了，请于管理员联系");
+								error : function(res) {
+									//$.MsgBox.Alert("消息", "出错了，请于管理员联系");
 								},
 								success : function(res) {
 									console.log(res);
-									if (res == "SUCCESS") {
-										//$.MsgBox.alert("添加成功");
+									var json = eval(res);
+									if (json == "SUCCESS") {
+										//$.MsgBox.Alert("添加成功");
+										console.log("成功");
+										
 									} else {
-										//$.MsgBox.alert("添加失败，请联系管理员");
+										//$.MsgBox.Alert("添加失败，登录名重复");
+										console.log("失败");
 									}
 								}
 							});
 						});
-
-				$("#cancel").click(function() {
-					location.href = 'user.html';
-				});
-
 			});
 </script>
 </head>

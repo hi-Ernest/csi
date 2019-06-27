@@ -10,16 +10,12 @@ import edu.team.entity.User;
  * @date 2019/06/24
  */
 public interface UserService {
-	/**
-	 * 判断用户是否存在
-	 */
-	public boolean exits(String username);
 
 	/**
 	 * 增加用户
 	 * @return 
 	 */
-	public void add(String username, Integer status, String loginname, String password);
+	public String add(String username, Integer status, String loginname, String password);
 
 	/**
 	 * 修改用户
@@ -29,18 +25,18 @@ public interface UserService {
 	/**
 	 * 删除用户
 	 */
-	public void deleteUser(Integer id);
+	public void deleteById(Integer id);
 
 	/**
 	 * 获取指定id用户
 	 * @return 
 	 */
-	public User getUser(Integer id);
+	public String findByUsername(Integer id);
 
 	/**
-	 * 获取用户列表
+	 * 获取指定登录用户
 	 */
-	public List<User> queryUsers(String username);
+	public String findByLoginname(String loginname);
 	/**
 	 * 获取全部用户
 	 */

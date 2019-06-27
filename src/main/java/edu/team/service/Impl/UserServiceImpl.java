@@ -20,19 +20,16 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
-	@Override
-	public boolean exits(String username) {
-		List<User> userList = userDao.findByUsername(username);
-        if(userList.size()>0)
-            return true;
-        else
-            return false;
-	}
 
 	@Override
-	public void add( String username, Integer status, String loginname, String password) {
-		userDao.add(username,status,loginname,password);
-		
+	public String add( String username, Integer status, String loginname, String password) {		
+		try {
+			userDao.add(username, status, loginname, password);
+			return "SUCCESS";
+		}
+		catch(Exception e){
+			return "FAIL";
+		}
 	}
 
 	@Override
@@ -42,25 +39,29 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Integer id) {
+	public void deleteById(Integer id) {
 		userDao.delete(id);
 		
 	}
 
-	@Override
-	public User getUser(Integer id) {
-		return userDao.getUser(id);
-	}
 
 	@Override
-	public List<User> queryUsers(String username) {
-		if(username == null || "".equals(username))
-            return userDao.findAll();
-        else return userDao.queryByUsername(username);
+	public String findByLoginname(String loginname) {
+		List<User> list=userDao.findByLoginname(loginname);
+		if(list.size()==0) {
+			return "SUCCESS";
+		}else
+			return "FAIL";
 	}
 	
 	@Override
 	public List<User> findAllUsers(){
 		return userDao.findAll();
+	}
+
+	@Override
+	public String findByUsername(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

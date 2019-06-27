@@ -8,7 +8,7 @@ import java.util.Date;
  * @date 2019/06/24
  */
 public class User {
-    private String id;
+    private Integer id;
     private String loginName;
     private String password;
     private Integer status;
@@ -20,12 +20,12 @@ public class User {
     public User() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Integer setId(Integer id) {
+        return  id;
     }
 
     public String getLoginName() {

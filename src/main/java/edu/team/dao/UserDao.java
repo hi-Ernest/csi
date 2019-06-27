@@ -14,7 +14,7 @@ import edu.team.entity.User;
 @Mapper
 public interface UserDao {
 	
-	public void add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password);
+	public String add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password);
     
     public void edit(Integer id);
     
@@ -24,7 +24,7 @@ public interface UserDao {
     
     public List<User> findByUsername(String username);
     
-    public List<User> queryByUsername(String username);
+    public List<User> findByLoginname(String username);
     
     public List<User> findAll();
 }
