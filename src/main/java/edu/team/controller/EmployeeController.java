@@ -121,9 +121,12 @@ public class EmployeeController {
     @RequestMapping("/editEmployee")
     public String editEmployee(@RequestBody String employee) {
 
+        System.out.println(employee + "    ****************************************");
+
+
         Map<String, Object> map = JacksonUtil.jsonToMap(employee);
 
-        employeeService.addEmployeeInf(map);
+        employeeService.editEmployeeInfById(map);
 
         return JacksonUtil.objectToJson("SUCCESS");
     }

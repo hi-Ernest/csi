@@ -145,6 +145,12 @@ public class EmployeeInfServiceImpl implements EmployeeService {
         //存入数据库
         emp.setDeptId(deptid);
 
+        //判断是修改还是新增
+        String id = (String) map.get("id");
+        if (!id.equals(" ") || id != null) {
+             emp.setId(Integer.valueOf(id));
+        }
+
         return emp;
     }
 

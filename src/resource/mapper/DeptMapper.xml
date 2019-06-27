@@ -11,27 +11,27 @@
     
     <!-- 查询dept_inf 所有数据-->
     <select id="selectDeptAll" resultMap="DeptResultMap">
-        SELECT * FROM dept_inf;
+        SELECT * FROM dept_inf
     </select>
     
     <!-- 查询dept_inf -->
     <select id="selectDept" parameterType="String" resultMap="DeptResultMap">
-        SELECT * FROM dept_inf WHERE name = #{name,jdbcType=VARCHAR};
+        SELECT * FROM dept_inf WHERE name = #{name,jdbcType=VARCHAR}
     </select>
     
     <!-- 删除dept_inf -->
     <delete id="deleteDept" parameterType="Integer" >
-        delete FROM dept_inf WHERE id = #{id,jdbcType=VARCHAR};
+        delete FROM dept_inf WHERE id = #{id,jdbcType=VARCHAR}
     </delete>
     
     <!-- 添加dept_inf -->
     <insert id="insertDept"  parameterType="edu.team.entity.Dept">
-        insert into dept_inf(name,remake) values(#{name,jdbcType=VARCHAR},#{remake,jdbcType=VARCHAR});
+        insert into dept_inf(name,remake) values(#{name,jdbcType=VARCHAR},#{remake,jdbcType=VARCHAR})
     </insert>
     
     <!-- 修改dept_inf -->
     <update id="updateDept" parameterType="edu.team.entity.Dept">
-        update dept_inf set name=#{name,jdbcType=VARCHAR},remake=#{remake,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER};
+        update dept_inf set name=#{name,jdbcType=VARCHAR},remake=#{remake,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER}
     </update>
 
     <select id="selectNameById" parameterType="java.lang.Integer" resultMap="DeptResultMap">

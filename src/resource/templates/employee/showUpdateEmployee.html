@@ -150,6 +150,8 @@
 			}
 		});
 	});
+
+
 	</script>
 
 
@@ -280,7 +282,7 @@
 			</tr>
 			<tr><td class="main_tdbor"></td></tr>
 			
-			<tr><td align="left" class="fftd"><input type="button"  id="submit()" value="修改">&nbsp;&nbsp;<input type="reset" value="取消 "></td></tr>
+			<tr><td align="left" class="fftd"><input type="button"  id="submit" value="修改">&nbsp;&nbsp;<input type="reset" onclick="cancel()" value="取消 "></td></tr>
 		  </tbody></table>
 	
 	</td>
@@ -358,6 +360,7 @@
 	});
 
 
+
 	$(document).ready(function () {
 
 		$("#submit").click(function () {
@@ -368,7 +371,7 @@
 			var cardId = $("#cardId");
 
 			var sex = $("#sex");
-			var jobId = $("#selectJob option:selected").val();
+			var jobId = $("#job_id option:selected").val();
 
 
 			var education = $("#education");
@@ -390,14 +393,16 @@
 			var hobby = $("#hobby");
 
 			var remark = $("#remark");
-			var deptId = $("#selectDept option:selected").val();
+			var deptId = $("#dept_id option:selected").val();
 
 			$.ajax({
 				type:"POST",
 				url:"../editEmployee",
 
 				data:JSON.stringify(
-						{	name:name.val(),
+						{
+							id:id,
+							name:name.val(),
 							cardId:cardId.val(),
 							jobId:jobId,
 							sex:sex.val(),
@@ -424,17 +429,21 @@
 				accept : "/",
 				success:function(data){
 					if (data == "SUCCESS") {
-						$.ligerDialog.alert("更新成功");
-						//局部刷新，直接重载当前页面的body
-						$("#main_body").load(location.href);
-						console.log(location.href)
-					} else {
-						$.MsgBox.Alert("消息", "出错了，请于管理员联系");
+						console.log(data);
+						$.ligerDialog.success("修改成功");
+						// console.log(location.href)
 					}
+				},
+				error:function(e){
+					$.ligerDialog.error("修改失败");
 				}
 			});
 		});
 	});
+
+	function cancel() {
+		window.location.href = 'employee.html';
+	};
 
 </script>
 

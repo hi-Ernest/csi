@@ -150,7 +150,7 @@
 			<tr><td class="main_tdbor"></td></tr>
 			
 			<tr><td align="left" class="fftd">
-			<input type="button" id="submit" value="添加">&nbsp;&nbsp;<input type="reset" value="取消 "></td></tr>
+			<input type="button" id="submit" value="添加">&nbsp;&nbsp;<input type="reset" value="取消 " onclick="cancel()"></td></tr>
 		  </tbody></table>
 		 
 	</td>
@@ -308,10 +308,10 @@
 						accept : "/",
 						success:function(data){
 							if (data == "SUCCESS") {
-								$.ligerDialog.alert("成功添加");
-								//局部刷新，直接重载当前页面的body
-								$("#main_body").load(location.href);
-								console.log(location.href)                    } else {
+								$.ligerDialog.success("添加成功");
+								window.location.href = 'employee.html';
+								// console.log(location.href)
+							} else {
 								$.MsgBox.Alert("消息", "出错了，请于管理员联系");
 							}
 						}
@@ -319,7 +319,6 @@
 				// }
         });
 	});
-
 
 
 </script>
