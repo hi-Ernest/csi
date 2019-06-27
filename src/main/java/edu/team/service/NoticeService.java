@@ -1,9 +1,8 @@
 package edu.team.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
-import edu.team.entity.Document;
+import edu.team.entity.Notice;
 
 /**
  *
@@ -11,11 +10,11 @@ import edu.team.entity.Document;
  * @date 2019/06/25
  */
 public interface NoticeService {
-    List<Document> findAllNotice();
+    List<Notice> findAllNotice();
 
-    List<Document> findNoticeFromTitle(String title);
+    List<Notice> getNoticeFromInfo(String title, String content);
 
-    Document findNoticeFromId(Integer id);
+    Notice findNoticeFromId(Integer id);
 
     String deleteNoticeFromId(Integer id);
 

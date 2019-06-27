@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.team.dao.NoticeDao">
-	<!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
-	<resultMap id="NoticeMap" type="edu.team.entity.Notice">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="title" property="title" jdbcType="CHAR" />
-		<result column="content" property="content" jdbcType="CHAR" />
-		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-		<result column="user_id" property="userId" jdbcType="INTEGER" />
-	</resultMap>
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
+    <resultMap id="NoticeMap" type="edu.team.entity.Notice">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="CHAR" />
+        <result column="content" property="content" jdbcType="CHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+    </resultMap>
 
-	<!-- 查询dept_inf所有用户信息 -->
-	<select id="findAllNotice" resultMap="NoticeMap">
+    <!-- 查询dept_inf所有用户信息 -->
+    <select id="findAllNotice" resultMap="NoticeMap">
 		SELECT
 			notice_inf.id,
 			notice_inf.title,
@@ -22,22 +22,28 @@
 			notice_inf
 	</select>
 
-	<!-- 通过标题查询文档 -->
-	<select id="findNoticeFromTitle" parameterType="string" resultMap="NoticeMap">
-		SELECT
-			notice_inf.id,
-			notice_inf.title,
-			notice_inf.content,
-			notice_inf.create_date,
-			notice_inf.user_id
-		FROM
-			notice_inf
-		WHERE
-			notice_inf.title = #{title}
-	</select>
+    <!-- 通过标题查询文档 -->
+    <select id="findNoticeFromInfo" parameterType="string" resultMap="NoticeMap">
+        SELECT
+        notice_inf.id,
+        notice_inf.title,
+        notice_inf.content,
+        notice_inf.create_date,
+        notice_inf.user_id
+        FROM
+        notice_inf
+        <where>
+            <if test="title != null and title != ''">
+                AND notice_inf.title LIKE concat('%',#{title},'%')
+            </if>
+            <if test="content != null and content != ''">
+                AND notice_inf.content LIKE concat('%',#{content},'%')
+            </if>
+        </where>
+    </select>
 
-	<!-- 通过id查询单个文档 -->
-	<select id="findNoticeFromId" parameterType="Integer" resultMap="NoticeMap">
+    <!-- 通过id查询单个文档 -->
+    <select id="findNoticeFromId" parameterType="Integer" resultMap="NoticeMap">
 		SELECT
 			notice_inf.id,
 			notice_inf.title,
@@ -50,8 +56,8 @@
 			notice_inf.id = #{id}
 	</select>
 
-	<!-- 通过id删除单个文档 -->
-	<delete id="deleteNoticeFromId" parameterType="Integer">
+    <!-- 通过id删除单个文档 -->
+    <delete id="deleteNoticeFromId" parameterType="Integer">
 		DELETE
 		FROM
 			notice_inf
@@ -59,8 +65,8 @@
 			id = #{id}
 	</delete>
 
-	<!-- 增加单个文档信息 -->
-	<insert id="addNotice">
+    <!-- 增加单个文档信息 -->
+    <insert id="addNotice">
 		INSERT INTO notice_inf (
 			notice_inf.title,
 			notice_inf.content,
@@ -71,8 +77,8 @@
 			(#{title}, #{content}, #{createDate}, #{userId})
 	</insert>
 
-	<!-- 编辑文档信息 -->
-	<update id="updateNotice">
+    <!-- 编辑文档信息 -->
+    <update id="updateNotice">
 		UPDATE notice_inf
 		SET notice_inf.title = #{title},
 		 notice_inf.create_date = #{createData},
@@ -82,8 +88,8 @@
 			id = #{id}
 	</update>
 
-	<!-- 通过id用户名 -->
-	<select id="findUserNameFromId" parameterType="Integer"  resultType="String">
+    <!-- 通过id用户名 -->
+    <select id="findUserNameFromId" parameterType="Integer" resultType="String">
 		SELECT
 			user_inf.login_name
 		FROM

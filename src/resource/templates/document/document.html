@@ -125,7 +125,7 @@
                     $trTemp.append("<td>" + createDate + "</td>");
                     $trTemp.append("<td>" + userName + "</td>");
                     $trTemp.append("<td>" + remake + "</td>");
-                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+                    $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html?id="+ id +"\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
                     $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id + "\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");
                     $trTemp.appendTo("#tbody");
                     count = index;
@@ -277,7 +277,6 @@
                         </div>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
         </td>

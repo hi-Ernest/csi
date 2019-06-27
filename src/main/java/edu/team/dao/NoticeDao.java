@@ -16,7 +16,7 @@ import edu.team.entity.Notice;
 public interface NoticeDao {
      List<Notice> findAllNotice();
 
-     List<Notice> findNoticeFromTitle(String title);
+     List<Notice> findNoticeFromInfo(String title, String content);
 
      Notice findNoticeFromId(Integer id);
 
