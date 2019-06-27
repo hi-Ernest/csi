@@ -19,7 +19,7 @@ public interface EmployeeService {
     String deleteEmployeeInfById(Integer id);
 
     //修改员工
-    boolean editEmployeeInfById(EmployeeInf emp);
+    String editEmployeeInfById(Map<String, Object> map);
 
 
     //通过*查询

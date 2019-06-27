@@ -84,36 +84,27 @@
 
 
 
-<!--  <update id="editEmployeeInfById" parameterType="edu.team.entity.EmployeeInf">-->
-<!--    update employee_inf-->
-<!--    set dept_id = #{emp.deptId},-->
-<!--      job_id = #{emp.jobId},-->
-<!--      `name` = #{emp.name},-->
-<!--      card_id = #{emp.cardId},-->
-<!--      address = #{emp.address},-->
-<!--      post_code = #{emp.postCode},-->
-<!--      tel = #{emp.tel},-->
-<!--      phone = #{emp.phone},-->
-<!--      qq_num = #{emp.qqNum},-->
-<!--      email = #{emp.email},-->
-<!--      sex = #{emp.sex},-->
-<!--      party = #{emp.party},-->
-<!--      birthday = #{emp.birthday},-->
-<!--      race = #{emp.race},-->
-<!--      education = #{emp.education},-->
-<!--      speciality = #{emp.speciality},-->
-<!--      hobby = #{emp.hobby},-->
-<!--      remake = #{emp.remake}-->
-<!--    where id = #{emp.id}-->
-<!--  </update>-->
-
-
-  <!--  <select id="countByExample" parameterType="pojo.EmployeeInfExample" resultType="java.lang.Long">-->
-  <!--    select count(*) from employee_inf-->
-  <!--    <if test="_parameter != null">-->
-  <!--      <include refid="Example_Where_Clause" />-->
-  <!--    </if>-->
-  <!--  </select>-->
-
+  <update id="editEmployeeInfById" parameterType="edu.team.entity.EmployeeInf">
+    update employee_inf
+    set dept_id = #{deptId},
+      job_id = #{jobId},
+      `name` = #{name},
+      card_id = #{cardId},
+      address = #{address},
+      post_code = #{postCode},
+      tel = #{tel},
+      phone = #{phone},
+      qq_num = #{qqNum},
+      email = #{email},
+      sex = #{sex},
+      party = #{party},
+      birthday = #{birthday},
+      race = #{race},
+      education = #{education},
+      speciality = #{speciality},
+      hobby = #{hobby},
+      remake = #{remake}
+    where id = #{id}
+  </update>
 
 </mapper>

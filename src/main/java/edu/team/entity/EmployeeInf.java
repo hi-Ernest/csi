@@ -127,7 +127,7 @@ public class EmployeeInf {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getCardId() {
@@ -135,7 +135,7 @@ public class EmployeeInf {
     }
 
     public void setCardId(String cardId) {
-        this.cardId = cardId == null ? null : cardId.trim();
+        this.cardId = cardId;
     }
 
     public String getAddress() {
@@ -143,7 +143,7 @@ public class EmployeeInf {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public String getPostCode() {
@@ -151,7 +151,7 @@ public class EmployeeInf {
     }
 
     public void setPostCode(String postCode) {
-        this.postCode = postCode == null ? null : postCode.trim();
+        this.postCode = postCode;
     }
 
     public String getTel() {
@@ -159,7 +159,7 @@ public class EmployeeInf {
     }
 
     public void setTel(String tel) {
-        this.tel = tel == null ? null : tel.trim();
+        this.tel = tel;
     }
 
     public String getPhone() {
@@ -167,7 +167,7 @@ public class EmployeeInf {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public String getQqNum() {
@@ -175,7 +175,7 @@ public class EmployeeInf {
     }
 
     public void setQqNum(String qqNum) {
-        this.qqNum = qqNum == null ? null : qqNum.trim();
+        this.qqNum = qqNum;
     }
 
     public String getEmail() {
@@ -183,7 +183,7 @@ public class EmployeeInf {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public Integer getSex() {
@@ -199,7 +199,7 @@ public class EmployeeInf {
     }
 
     public void setParty(String party) {
-        this.party = party == null ? null : party.trim();
+        this.party = party;
     }
 
     public String getBirthday() {
@@ -215,7 +215,7 @@ public class EmployeeInf {
     }
 
     public void setRace(String race) {
-        this.race = race == null ? null : race.trim();
+        this.race = race;
     }
 
     public String getEducation() {
@@ -223,7 +223,7 @@ public class EmployeeInf {
     }
 
     public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
+        this.education = education;
     }
 
     public String getSpeciality() {
@@ -231,7 +231,7 @@ public class EmployeeInf {
     }
 
     public void setSpeciality(String speciality) {
-        this.speciality = speciality == null ? null : speciality.trim();
+        this.speciality = speciality;
     }
 
     public String getHobby() {
@@ -239,7 +239,7 @@ public class EmployeeInf {
     }
 
     public void setHobby(String hobby) {
-        this.hobby = hobby == null ? null : hobby.trim();
+        this.hobby = hobby;
     }
 
     public String getRemake() {
@@ -247,7 +247,15 @@ public class EmployeeInf {
     }
 
     public void setRemake(String remake) {
-        this.remake = remake == null ? null : remake.trim();
+        this.remake = remake;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     public String getJobName() {
@@ -265,15 +273,6 @@ public class EmployeeInf {
     public void setDeptName(String deptName) {
         this.deptName = deptName;
     }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
 
     public String getSexName() {
         return sexName;
