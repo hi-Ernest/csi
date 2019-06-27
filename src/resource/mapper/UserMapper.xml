@@ -15,8 +15,16 @@
 		<result column="face_path" property="facePath" jdbcType="CHAR" />
 	</resultMap>
 	<!-- 查询dept_inf所有用户信息 -->
-	<select id="findAll" resultMap="BaseResultMap1">
-		SELECT * FROM user_inf;
+	<select id="findAllUsers" resultMap="BaseResultMap1">
+		SELECT
+			user_inf.id,
+			user_inf.login_name,
+			user_inf.password,
+			user_inf.user_name,
+			user_inf.status,
+			user_inf.create_date
+		FROM
+			user_inf;
 	</select>
 	<!-- 查询dept_inf单个用户信息 -->
 	<select id="getUser" resultMap="BaseResultMap1">
