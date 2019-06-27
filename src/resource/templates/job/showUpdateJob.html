@@ -104,6 +104,8 @@
 							console.log(data);
 							if (data == "SUCCESS") {
 								$.ligerDialog.success("修改成功");
+		                    }else{
+		                    	$.ligerDialog.error("修改失败");
 		                    }
 						},
 						error: function (XMLHttpRequest, textStatus, errorThrown) {

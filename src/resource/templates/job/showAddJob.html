@@ -50,6 +50,8 @@
 							console.log(data);
 							if (data == "SUCCESS") {
 								$.ligerDialog.success("添加成功");
+		                    }else{
+		                    	$.ligerDialog.error("添加失败");
 		                    }
 						},
 						error: function (XMLHttpRequest, textStatus, errorThrown) {
