@@ -30,4 +30,8 @@ public interface EmployeeInfMapper {
 
     //修改员工
     boolean editEmployeeInfById(@Param("emp") EmployeeInf emp);
+
+
+    List<EmployeeInf> selectEmployee(EmployeeInf emp);
+
 }

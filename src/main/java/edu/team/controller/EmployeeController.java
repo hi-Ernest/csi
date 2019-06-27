@@ -1,5 +1,7 @@
 package edu.team.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import edu.team.entity.Dept;
 import edu.team.entity.EmployeeInf;
 import edu.team.entity.Job;
@@ -9,7 +11,6 @@ import edu.team.service.JobService;
 import edu.team.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
 import java.util.Map;
@@ -33,11 +34,10 @@ public class EmployeeController {
      * 完成
      */
     @RequestMapping(value = "/findAllEmployee", method = RequestMethod.GET)
-    public List<EmployeeInf> findAllEmployee() {
-
-        List<EmployeeInf> list = employeeService.findALlEmployeeInf();
-
-        return list;
+    public PageInfo<EmployeeInf> findAllEmployee(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        PageInfo<EmployeeInf> pageInfo = new PageInfo<EmployeeInf>(employeeService.findALlEmployeeInf());
+        return pageInfo;
     }
 
     /**
@@ -91,18 +91,27 @@ public class EmployeeController {
     @ResponseBody
     public String addEmployee(@RequestBody String employee) {
 
-        System.out.println(" ********************************** ");
-        System.out.println(employee);
-
         Map<String, Object> map = JacksonUtil.jsonToMap(employee);
 
-
-        System.out.println(map.toString() +"       ----------------------------");
         employeeService.addEmployeeInf(map);
 
-        return "SUCCESS";
+        return JacksonUtil.objectToJson("SUCCESS");
     }
 
+    /**
+     * 条件查询员工信息
+     * 完成
+     */
+    @RequestMapping(value = "/selectEmployee", method = RequestMethod.POST)
+    @ResponseBody
+    public List<EmployeeInf> selectEmployee(@RequestBody String emp) {
+
+        Map<String, Object> map = JacksonUtil.jsonToMap(emp);
+
+        List<EmployeeInf> list = employeeService.selectEmployee(map);
+
+        return list;
+    }
 
 
     /**

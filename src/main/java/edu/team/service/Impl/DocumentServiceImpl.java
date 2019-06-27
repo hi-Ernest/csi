@@ -23,12 +23,20 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Document> findAllDocument() {
-        return documentDao.findAllDocument();
+        List<Document> documents = documentDao.findAllDocument();
+        for (int i = 0; i < documents.size(); i++) {
+            documents.get(i).setUserName(documentDao.findUserNameFromId(documents.get(i).getUserId()));
+        }
+        return documents;
     }
 
     @Override
     public List<Document> findDocumentFromTitle(String title) {
-        return documentDao.findDocumentFromTitle(title);
+        List<Document> documents = documentDao.findDocumentFromTitle(title);
+        for (int i = 0; i < documents.size(); i++) {
+            documents.get(i).setUserName(documentDao.findUserNameFromId(documents.get(i).getUserId()));
+        }
+        return documents;
     }
 
     @Override

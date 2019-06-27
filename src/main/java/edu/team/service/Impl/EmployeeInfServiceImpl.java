@@ -29,6 +29,9 @@ public class EmployeeInfServiceImpl implements EmployeeService {
         List<EmployeeInf> list = employeeInfMapper.findAllEmployeeInf();
 
         for(EmployeeInf emp : list ) {
+
+            System.out.println(emp.toString()+ " -----------------------------------");
+
             emp.setJobName(jobService.selectNameById(emp.getJobId()));
             emp.setDeptName(deptService.selectNameById(emp.getDeptId()));
             if (emp.getSex()==1)
@@ -72,9 +75,9 @@ public class EmployeeInfServiceImpl implements EmployeeService {
 
         System.out.println(a+ "     ************************************");
 
-        int jodId = jobService.selectJob(a).getId();
+        int jobId = jobService.selectJobByName(a).getId();
         //存入数据库
-        emp.setJobId(jodId);
+        emp.setJobId(jobId);
 
         emp.setEducation((String) map.get("education"));
         emp.setEmail((String) map.get("email"));
@@ -97,7 +100,6 @@ public class EmployeeInfServiceImpl implements EmployeeService {
         //存入数据库
         emp.setDeptId(deptid);
 
-
         try {
             employeeInfMapper.addEmployeeInf(emp);
             return "SUCCESS";
@@ -113,4 +115,26 @@ public class EmployeeInfServiceImpl implements EmployeeService {
         employeeInfMapper.editEmployeeInfById(emp);
         return true;
     }
+
+    @Override
+    public List<EmployeeInf> selectEmployee(Map<String, Object> map) {
+
+        EmployeeInf emp = new EmployeeInf();
+
+        emp.setName((String)map.get("name"));
+        emp.setCardId((String) map.get("cardId"));
+        emp.setPhone((String) map.get("phone"));
+
+        List<EmployeeInf> list = employeeInfMapper.selectEmployee(emp);
+
+        for(EmployeeInf e : list ) {
+            emp.setJobName(jobService.selectNameById(e.getJobId()));
+            emp.setDeptName(deptService.selectNameById(e.getDeptId()));
+        }
+
+        System.out.println(list.get(0).getJobName()+ "******************************");
+
+        return list;
+    }
+
 }

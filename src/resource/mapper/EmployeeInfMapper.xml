@@ -36,6 +36,17 @@
   </select>
 
 
+    <select id="selectEmployee" resultMap="BaseResultMap" parameterType="edu.team.entity.EmployeeInf">
+        SELECT *
+        FROM employee_inf
+        where
+        `name` like CONCAT('%',#{name},'%')
+        and card_id like CONCAT('%',#{cardId},'%')
+        and phone like CONCAT('%',#{phone},'%')
+    </select>
+
+<!--    and sex = #{sex}-->
+
 
   <delete id="deleteEmployeeInfById" parameterType="java.lang.Integer">
     delete

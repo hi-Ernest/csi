@@ -19,49 +19,55 @@
 	<script src="../js/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
 	<script src="../js/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
-
-		<script type="text/javascript">
-			function submit(){
-				/** 职位表单提交 */
-				//$("#jobForm").submit(function(){
-					var name = $("#name");
-					var remark = $("#remark");
-					var msg = "";
-					if ($.trim(name.val()) == ""){
-						msg = "职位名称不能为空！";
-						name.focus();
-					}else if ($.trim(remark.val()) == ""){
-						msg = "详细描述不能为空！";
-						remark.focus();
+	<script type="text/javascript">
+function submit(){
+	    	/** 职位表单提交 */
+			//$("#jobForm").submit(function(){
+				var name = $("#name");
+				var remark = $("#remark");
+			/*	var msg = "";
+				if ($.trim(name.val()) == ""){
+					msg = "职位名称不能为空！";
+					name.focus();
+				}else if ($.trim(remark.val()) == ""){
+					msg = "详细描述不能为空！";
+					remark.focus();
+				}
+				if (msg != ""){
+					$.ligerDialog.error(msg);
+					return false;
+				}else{
+					return true;
+				}*/
+				//$("#jobForm").submit();
+			//});
+				$.ajax({
+					type:"post",
+					url:"../insertJob",
+					data:{
+						name:name.val(),
+						remake:remark.val(),
+					},
+					dataType:"json",
+					async:false,
+					success:function(data){
+						console.log(data);
+						if (data == "SUCCESS") {
+							$.ligerDialog.success("添加成功");
+	                    }
+					},
+					error:function(e){
+						$.ligerDialog.error("添加失败");
 					}
-					if (msg != ""){
-						$.ligerDialog.error(msg);
-						return false;
-					}else{
-						// return true;
-						$.ajax({
-							type:"post",
-							url:"../addJob",
-							data:JSON.stringify(
-									{	name:name.val(),
-										remake:remark.val(),
-									}),
-							datatype:"json",
-							// 告诉jQuery不要去处理发送的数据
-							processData : false,
-							// 告诉jQuery不要去设置Content-Type请求头
-							contentType:"application/json",
-							accept : "/",
-							success:function(data){
-								$.ligerDialog.alert("添加成功");
-							}
 
-						});
-					}
-					//$("#jobForm").submit();
-				//});
-			}
-		</script>
+				})
+	    }
+
+		function cancel(){
+			window.location.href = 'http://localhost:10086/csi/dept/job.html';
+		};
+
+	</script>
 </head>
 <body>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">

@@ -114,6 +114,7 @@
                     var fileName = list[index].fileName;
                     var remake = list[index].remake;
                     var createDate = list[index].createDate;
+                    var userName = list[index].userName;
                     createDate = createDate.substring(0, 10);
                     var time = createDate.split("-");
                     createDate = time[0] + "年" + time[1] + "月" + time[2] + "日";
@@ -122,7 +123,7 @@
                     $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
                     $trTemp.append("<td>" + title + "</td>");
                     $trTemp.append("<td>" + createDate + "</td>");
-                    $trTemp.append("<td>" + userId + "</td>");
+                    $trTemp.append("<td>" + userName + "</td>");
                     $trTemp.append("<td>" + remake + "</td>");
                     $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateDocument.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
                     $trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"../download?id=" + id + "\" id=\"down_" + index + "\">" + "<img width=\"20\" height=\"20\" title=\"下载\" src=\"../images/downLoad.png\"/>" + "</a>" + "</td>");

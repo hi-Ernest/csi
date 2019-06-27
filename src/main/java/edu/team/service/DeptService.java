@@ -9,13 +9,9 @@ import edu.team.entity.Dept;
  */
 public interface DeptService {
 	List<Dept> selectDept(String name);
-
-    void insertDept(Dept dept);
-
-	void deleteDept(String name);
-
-	void updateDept(Dept dept);
-
+	String insertDept(Dept dept);
+	String deleteDept(int id);
+	String updateDept(Dept dept);
 	List<Dept> selectDeptAll();
 
 	//通过id找到name

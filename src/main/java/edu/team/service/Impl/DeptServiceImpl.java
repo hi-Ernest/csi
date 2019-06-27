@@ -27,18 +27,36 @@ public class DeptServiceImpl implements DeptService {
     }
     
     @Override
-    public void insertDept(Dept dept) {
-        deptDao.insertDept(dept);
+    public String insertDept(Dept dept) {
+        try {
+        	deptDao.insertDept(dept);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
     }
     
     @Override
-    public void deleteDept(String name) {
-        deptDao.deleteDept(name);
+    public String deleteDept(int id) {
+    	 try {
+    		 deptDao.deleteDept(id);
+             return "SUCCESS";
+         } catch (Exception e) {
+             System.out.println(e);
+             return "FAIL";
+         }
     }
     
     @Override
-    public void updateDept(Dept dept) {
-        deptDao.updateDept(dept);
+    public String updateDept(Dept dept) {
+        try {
+        	deptDao.updateDept(dept);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
     }
     
     @Override

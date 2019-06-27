@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
+import edu.team.entity.User;
 import edu.team.service.LoginService;
 
 /**
@@ -23,10 +24,14 @@ public class LoginController {
     public String login(String loginName, String password, HttpSession session) {
         String result = loginService.login(loginName, password);
         if (result.equals("1")) {
+            User user = loginService.getUserInfo(loginName);
+            session.setAttribute("loginId", user.getId());
             session.setAttribute("loginName", loginName);
             session.setAttribute("status", 1);
             return "SUCCESS";
         } else if (result.equals("2")) {
+            User user = loginService.getUserInfo(loginName);
+            session.setAttribute("loginId", user.getId());
             session.setAttribute("loginName", loginName);
             session.setAttribute("status", 2);
             return "SUCCESS";

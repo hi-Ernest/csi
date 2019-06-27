@@ -1,10 +1,18 @@
 package edu.team.service.Impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import edu.team.dao.DeptDao;
 import edu.team.dao.JobDao;
+import edu.team.entity.Dept;
 import edu.team.entity.Job;
+import edu.team.service.DeptService;
 import edu.team.service.JobService;
 
 import java.util.List;
@@ -14,28 +22,56 @@ import java.util.List;
  */
 @Service
 public class JobServiceImpl implements JobService {
-    @Autowired
+	
+	@Autowired
     private JobDao jobDao;
 
-
     @Override
-    public Job selectJob(String name) {
+    public List<Job> selectJob(String name) {
         return jobDao.selectJob(name);
     }
     
     @Override
-    public void insertJob() {
-    	jobDao.insertJob();
+    public String insertJob(Job job) {
+        try {
+        	jobDao.insertJob(job);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
     }
     
     @Override
-    public void deleteJob(String name) {
-    	jobDao.deleteJob(name);
+    public String deleteJob(int id) {
+    	 try {
+    		 jobDao.deleteJob(id);
+             return "SUCCESS";
+         } catch (Exception e) {
+             System.out.println(e);
+             return "FAIL";
+         }
     }
     
     @Override
-    public void updateJob() {
-    	jobDao.updateJob();
+    public String updateJob(Job job) {
+        try {
+        	jobDao.updateJob(job);
+            return "SUCCESS";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "FAIL";
+        }
+    }
+    
+    @Override
+    public List<Job> selectJobAll() {
+        return jobDao.selectJobAll();
+    }
+
+    @Override
+    public Job selectJobByName(String name) {
+        return jobDao.selectJobByName(name);
     }
 
     @Override

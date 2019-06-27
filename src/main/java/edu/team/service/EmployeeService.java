@@ -20,4 +20,9 @@ public interface EmployeeService {
 
     //修改员工
     boolean editEmployeeInfById(EmployeeInf emp);
+
+
+    //通过*查询
+    List<EmployeeInf> selectEmployee(Map<String, Object> map);
+
 }

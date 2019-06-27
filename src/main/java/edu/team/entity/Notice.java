@@ -3,21 +3,17 @@ package edu.team.entity;
 import java.sql.Timestamp;
 
 /**
- * 文件类
+ * 公告管理
  * @author dailiwen
- * @date 2019/06/25
+ * @date 2019/06/26
  */
-public class Document {
-    private Integer id;
-    private String title;
-    private String fileName;
-    private String remake;
-    private Timestamp createDate;
-    private Integer userId;
-    private String userName;
-
-    public Document() {
-    }
+public class Notice {
+    Integer id;
+    String title;
+    String content;
+    Timestamp createDate;
+    Integer userId;
+    String userName;
 
     public Integer getId() {
         return id;
@@ -35,20 +31,12 @@ public class Document {
         this.title = title;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getContent() {
+        return content;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getRemake() {
-        return remake;
-    }
-
-    public void setRemake(String remake) {
-        this.remake = remake;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Timestamp getCreateDate() {
@@ -77,11 +65,10 @@ public class Document {
 
     @Override
     public String toString() {
-        return "Document{" +
+        return "Notice{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", remake='" + remake + '\'' +
+                ", content='" + content + '\'' +
                 ", createDate=" + createDate +
                 ", userId=" + userId +
                 ", userName='" + userName + '\'' +

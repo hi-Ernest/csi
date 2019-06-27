@@ -20,6 +20,8 @@ public interface DocumentDao {
 
      Document findDocumentFromId(Integer id);
 
+     String findUserNameFromId(Integer id);
+
      void deleteDocumentFromId(Integer id);
 
      void addDocument(String title, String fileName, String remake, Timestamp createData, Integer userId);

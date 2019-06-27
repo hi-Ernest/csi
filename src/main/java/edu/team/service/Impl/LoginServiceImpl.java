@@ -42,4 +42,9 @@ public class LoginServiceImpl implements LoginService {
         }
         return "3";
     }
+
+    @Override
+    public User getUserInfo(String loginName) {
+        return loginDao.login(loginName);
+    }
 }
