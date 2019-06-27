@@ -63,7 +63,7 @@
 		</table>
 		<div style="height:10px;"></div>
 		<script type="text/javascript">
-			$("#noticeForm").submit(function(){
+			$("#noticeForm").click(function(){
 				var title = $("#title");
 				var content = $("#content");
 				var msg = "";
@@ -84,8 +84,9 @@
 					return false;
 				}
 
-				title = $.trim(title);
-				content = $.trim(content);
+				title = $.trim(title.val());
+				content = $.trim(content.val());
+				console.log(title + "--------" + content);
 				var formData = new FormData();
 				formData.append("title", title);
 				formData.append("content", content);
@@ -101,9 +102,8 @@
 						$.ligerDialog.error("出错了，请与管理员联系！");
 					},
 					success: function(res){
-						console.log(dailiwen);
 						if (res == "SUCCESS") {
-							$.ligerDialog.alert("添加成功");
+							$.ligerDialog.success("添加成功");
 						} else {
 							$.ligerDialog.error("出错了，请与管理员联系！");
 						}

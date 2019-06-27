@@ -21,99 +21,232 @@
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
 
 	<script type="text/javascript">
+
 		$(function () {
+			var boxs;
 			$.ajax({
 				url: "../findAllEmployee",
-				type: "get",
+				type: "GET",
 				dataType: "json",
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					$.MsgBox.Alert("消息", "出错了，请于管理员联系");
+					$.ligerDialog.error("出错了，请与管理员联系！");
 				},
 				success: function (res) {
-					console.log(res);
-					var json = eval(res);
-					$("#tbody").empty();
-					$.each(json, function (index, item) {
-						//循环获取数据
-						var id = json[index].id;
-						var name = json[index].name;
-						var sex = json[index].sex;
-						var phone = json[index].phone;
-						var email = json[index].email;
-						var job = json[index].jodId;
-						var education = json[index].education;
-						var cardId = json[index].cardId;
-						var deptId = json[index].deptId;
-						var address = json[index].address;
-						var createDate = json[index].createDate;
+						loadData(res, "../findAllEmployee", "GET");
+				}
+			});
 
+			$.ajax({
+				url:"../showAddEmployeeForJob",
+				type:"GET",
+				dataType:"JSON",
+				success:function (data) {
+					var str = "";
+					for (var resCode in data) {
+						var resId = data[resCode].id;
+						var resName = data[resCode].name;
+						str += "<option value\"" + resId + "\">" + resName + "</option>";
+					}
+					$("#selectJob").html("<option value=\"-1\">请选择</option>" + str);
+				}
+			});
 
-						var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
-						$trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + index + "\" id=\"box_" + index + "\">" + "</td>");
-						$trTemp.append("<td>" + name + "</td>");
-						$trTemp.append("<td>" + sex + "</td>");
-						$trTemp.append("<td>" + phone + "</td>");
-						$trTemp.append("<td>" + email + "</td>");
-						$trTemp.append("<td>" + job + "</td>");
-						$trTemp.append("<td>" + education + "</td>");
-						$trTemp.append("<td>" + cardId + "</td>");
-						$trTemp.append("<td>" + deptId + "</td>");
-						$trTemp.append("<td>" + address + "</td>");
-						$trTemp.append("<td>" + createDate + "</td>");
-						$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateEmployee.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
-						$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "</a>" + "</td>");
-						$trTemp.appendTo("#tbody");
+			$.ajax({
+				url:"../showAddEmployeeForDept",
+				type:"GET",
+				dataType:"JSON",
+				success:function (data) {
+					var str = "";
+					for (var resCode in data) {
+						var resId = data[resCode].id;
+						var resName = data[resCode].name;
+						str += "<option value\"" + resId + "\">" + resName + "</option>";
+					}
+					$("#selectDept").html("<option value=\"-1\">请选择</option>" + str);
+				}
+			});
+
+			/** 删除员工绑定点击事件 */
+			$("#delete").click(function () {
+				/** 获取到用户选中的复选框  */
+				var checkedBoxs = boxs.filter(":checked");
+				if (checkedBoxs.length < 1) {
+					$.ligerDialog.error("请选择一个需要删除的员工！");
+				} else {
+					/** 得到用户选中的所有的需要删除的ids */
+					var ids = checkedBoxs.map(function () {
+						return this.value;
 					});
 
-					$(function () {
-						/** 获取上一次选中的部门数据 */
-						var boxs = $("input[type='checkbox'][id^='box_']");
-
-						/** 给全选按钮绑定点击事件  */
-						$("#checkAll").click(function () {
-							// this是checkAll  this.checked是true
-							// 所有数据行的选中状态与全选的状态一致
-							boxs.attr("checked", this.checked);
-						})
-
-						/** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
-						$("tr[id^='data_']").hover(function () {
-							$(this).css("backgroundColor", "#eeccff");
-						}, function () {
-							$(this).css("backgroundColor", "#ffffff");
-						})
-
-
-						/** 删除员工绑定点击事件 */
-						$("#delete").click(function () {
-							/** 获取到用户选中的复选框  */
-							var checkedBoxs = boxs.filter(":checked");
-							if (checkedBoxs.length < 1) {
-								$.ligerDialog.error("请选择一个需要删除的员工！");
-							} else {
-								/** 得到用户选中的所有的需要删除的ids */
-								var ids = checkedBoxs.map(function () {
-									return this.value;
-								})
-
-								$.ligerDialog.confirm("确认要删除吗?", "删除员工", function (r) {
-									if (r) {
-										// alert("删除："+ids.get());
-										// 发送请求
-										//window.location = "${ctx }/employee/removeEmployee?ids=" + ids.get();
+					$.ligerDialog.confirm("确认要删除吗?", "删除员工", function (r) {
+						if (r) {
+							var formData = new FormData();
+							formData.append("ids", ids.get());
+							$.ajax({
+								url: "../deleteEmployee",
+								type: "post",
+								dataType:"json",
+								async: false,
+								processData : false, // 使数据不做处理
+								contentType : false, // 不要设置Content-Type请求头
+								data: formData,
+								error: function (res) {
+									console.log(res);
+									$.ligerDialog.error("出错了，请与管理员联系！");
+								},
+								success: function (res) {
+									if (res === "SUCCESS") {
+										$("#main_body").load(location.href);
+										console.log(location.href)
+									} else {
+										$.ligerDialog.error("出错了，请与管理员联系！");
 									}
-								});
-							}
-						})
-					})
+								}
+							});
+							//window.location = "${ctx }/employee/removeEmployee?ids=" + ids.get();
+						}
+					});
 				}
-			})
-		})
+			});
+
+			$(function () {
+				/** 获取上一次选中的部门数据 */
+				boxs = $("input[type='checkbox'][id^='box_']");
+
+				/** 给全选按钮绑定点击事件  */
+				$("#checkAll").click(function () {
+					// this是checkAll  this.checked是true
+					// 所有数据行的选中状态与全选的状态一致
+					boxs.attr("checked", this.checked);
+				});
+
+				/** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+				$("tr[id^='data_']").hover(function () {
+					$(this).css("backgroundColor", "#eeccff");
+				}, function () {
+					$(this).css("backgroundColor", "#ffffff");
+				})
+
+				/** 给每个数据行绑定点击事件：判断如果数据行都选中全选也应该选中，反之  */
+				boxs.click(function (event) {
+					/** 去掉复选按钮的事件传播：点击复选会触发行点击：因为复选在行中 */
+					event.stopPropagation();
+
+					/** 判断当前选中的数据行有多少个  */
+					var checkedBoxs = boxs.filter(":checked");
+					/** 判断选中的总行数是否等于总行数：以便控制全选按钮的状态   */
+					$("#checkAll").attr("checked", checkedBoxs.length == boxs.length);
+				});
+			});
+
+			//加载页面数据方法单独提出
+			function loadData(res, url, type, formData) {
+				console.log(res);
+				var json = eval(res);
+				$("#tbody").empty();
+				var count = 0;
+				var list = eval(json.list);
+				$.each(list, function (index, item) {
+					//循环获取数据
+					var id = json[index].id;
+					var name = json[index].name;
+					var sexName = json[index].sexName;
+					var phone = json[index].phone;
+					var email = json[index].email;
+					var jobName = json[index].jobName;
+					var education = json[index].education;
+					var cardId = json[index].cardId;
+					var deptName = json[index].deptName;
+					var address = json[index].address;
+					var createDate = json[index].createDate;
+
+
+					var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+					$trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
+					$trTemp.append("<td>" + name + "</td>");
+					$trTemp.append("<td>" + sexName + "</td>");
+					$trTemp.append("<td>" + phone + "</td>");
+					$trTemp.append("<td>" + email + "</td>");
+					$trTemp.append("<td>" + jobName + "</td>");
+					$trTemp.append("<td>" + education + "</td>");
+					$trTemp.append("<td>" + cardId + "</td>");
+					$trTemp.append("<td>" + deptName + "</td>");
+					$trTemp.append("<td>" + address + "</td>");
+					$trTemp.append("<td>" + createDate + "</td>");
+					$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateEmployee.html?id="+ id +"\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+					$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "</a>" + "</td>");
+					$trTemp.appendTo("#tbody");
+					count = index;
+				});
+
+				Page({
+					num: json.lastPage,					//页码数
+					startnum: json.pageNum,		//指定页码
+					elem: $('#mypage'),		//指定的元素
+					callback: function (n) {	//回调函数
+						console.log(n + "  dailiwen");
+						if (formData == null)
+							formData = new FormData();
+						formData.delete("pageNum");
+						formData.append("pageNum", n);
+						$.ajax({
+							url: url,
+							type: type,
+							data: formData,
+							processData: false,
+							contentType: false,
+							dataType: "json",
+							error: function (XMLHttpRequest, textStatus, errorThrown) {
+								$.ligerDialog.error("出错了，请与管理员联系！");
+							},
+							success: function (res) {
+								loadData(res, url, type, formData);
+							}
+						});
+					}
+				});
+
+				$(function () {
+					boxs = $("input[type='checkbox'][id^='box_']");
+					/** 给全选按钮绑定点击事件  */
+					$("#checkAll").click(function () {
+						// this是checkAll  this.checked是true
+						// 所有数据行的选中状态与全选的状态一致
+						boxs.attr("checked", this.checked);
+					});
+
+					/** 给每个数据行绑定点击事件：判断如果数据行都选中全选也应该选中，反之  */
+					boxs.click(function (event) {
+						/** 去掉复选按钮的事件传播：点击复选会触发行点击：因为复选在行中 */
+						event.stopPropagation();
+
+						/** 判断当前选中的数据行有多少个  */
+						var checkedBoxs = boxs.filter(":checked");
+						/** 判断选中的总行数是否等于总行数：以便控制全选按钮的状态   */
+						$("#checkAll").attr("checked", checkedBoxs.length == boxs.length);
+					});
+
+					/** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+					$("tr[id^='data_']").hover(function () {
+						$(this).css("backgroundColor", "#eeccff");
+					}, function () {
+						$(this).css("backgroundColor", "#ffffff");
+					}).click(function () {
+						/** 控制该行是否需要被选中 */
+						/** 获取此行的复选框id */
+						var checkboxId = this.id.replace("data_", "box_");
+						/** 触发本行的复选点击 */
+						$("#" + checkboxId).trigger("click");
+					});
+				});
+			}
+
+		});
 
 	</script>
 
 </head>
-<body>
+<body id="main_body">
 	<!-- 导航 -->
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 	  <tr><td height="10"></td></tr>
@@ -136,32 +269,32 @@
 					  <tr>
 					    <td class="font3">
 					    	职位：
-							    <select name="job_id" style="width:143px;">
-					    			<option value="0">--请选择职位--</option>
-					    			<c:forEach items="${requestScope.jobs }" var="job">
-					    				<option value="${job.id }">${job.name }</option>
-					    			</c:forEach>
+							    <select name="job_id" style="width:143px;" id="selectJob">
+<!--					    			<option value="0">&#45;&#45;请选择职位&#45;&#45;</option>-->
+<!--					    			<c:forEach items="${requestScope.jobs }" var="job">-->
+<!--					    				<option value="${job.id }">${job.name }</option>-->
+<!--					    			</c:forEach>-->
 					    		</select>
-					    	姓名：<input type="text" name="name">
-					    	身份证号码：<input type="text" name="cardId" maxlength="18">
+							姓名：<input type="text" name="name" id="name">
+					    	身份证号码：<input type="text" name="cardId" maxlength="18" id="cardId">
 					    </td>
 					  </tr>
 					  <tr>
 					    <td class="font3">
 					    	性别：
-					    		<select name="sex" style="width:143px;">
+					    		<select name="sex" style="width:143px;" id="sex">
 					    			<option value="0">--请选择性别--</option>
 					    			<option value="1">男</option>
 					    			<option value="2">女</option>
 					    		</select>
-					    	手机：<input type="text" name="phone">
-					    	所属部门：<select  name="dept_id" style="width:100px;">
-								   <option value="0">--部门选择--</option>
-								   <c:forEach items="${requestScope.depts }" var="dept">
-					    				<option value="${dept.id }">${dept.name }</option>
-					    			</c:forEach>
+					    	手机：<input type="text" name="phone" id="phone">
+					    	所属部门：<select  name="dept_id" style="width:100px;" id="selectDept">
+<!--								   <option value="0">&#45;&#45;部门选择&#45;&#45;</option>-->
+<!--								   <c:forEach items="${requestScope.depts }" var="dept">-->
+<!--					    				<option value="${dept.id }">${dept.name }</option>-->
+<!--					    			</c:forEach>-->
 							</select>&nbsp;
-					    	<input type="submit" value="搜索"/>
+					    	<input type="submit" value="搜索" id="select"/>
 					    	<input id="delete" type="button" value="删除"/>
 					    </td>
 					  </tr>
@@ -205,5 +338,88 @@
 	  </td></tr>
 	</table>
 	<div style="height:10px;"></div>
+
+
+
+
+	<!-- 查询	-->
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+			$("#select").click(function () {
+
+				var name = $("#name");
+				var cardId = $("#cardId");
+
+				var sex = $("#sex");
+				var jobId = $("#selectJob option:selected");
+
+				var deptId =  $("#selectDept option:selected");
+				var phone = $("#phone");
+
+				$(function () {
+					$.ajax({
+						url:"../selectEmployee",
+						type:"POST",
+						dataType:"JSON",
+						data:JSON.stringify(
+								{
+									name:name.val(),
+									cardId:cardId.val(),
+									sex:sex.val(),
+									jobId:jobId.val(),
+									deptId:deptId.val(),
+									phone:phone.val()
+								}),
+						// 告诉jQuery不要去处理发送的数据
+						processData : false,
+						// 告诉jQuery不要去设置Content-Type请求头
+						contentType:"application/json",
+						accept : "/",
+						success:function (res) {
+							console.log(res);
+							var json = eval(res);
+							$("#tbody").empty();
+							$.each(json, function (index, item) {
+								//循环获取数据
+								var id = json[index].id;
+								var name = json[index].name;
+								var sexName = json[index].sexName;
+								var phone = json[index].phone;
+								var email = json[index].email;
+								var jobName = json[index].jobName;
+								var education = json[index].education;
+								var cardId = json[index].cardId;
+								var deptName = json[index].deptName;
+								var address = json[index].address;
+								var createDate = json[index].createDate;
+
+
+								var $trTemp = $("<tr ondblclick=\"down(index);\" class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
+								$trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
+								$trTemp.append("<td>" + name + "</td>");
+								$trTemp.append("<td>" + sexName + "</td>");
+								$trTemp.append("<td>" + phone + "</td>");
+								$trTemp.append("<td>" + email + "</td>");
+								$trTemp.append("<td>" + jobName + "</td>");
+								$trTemp.append("<td>" + education + "</td>");
+								$trTemp.append("<td>" + cardId + "</td>");
+								$trTemp.append("<td>" + deptName + "</td>");
+								$trTemp.append("<td>" + address + "</td>");
+								$trTemp.append("<td>" + createDate + "</td>");
+								$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateEmployee.html\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
+								$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "</a>" + "</td>");
+								$trTemp.appendTo("#tbody");
+							});
+						}
+					});
+				});
+
+			});
+
+		});
+
+	</script>
+
 </body>
 </html>

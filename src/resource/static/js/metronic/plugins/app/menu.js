@@ -634,26 +634,19 @@ function GetQueryString(name) {
 }
 
 function loginOut() {
-    window.location.replace("loginForm.html");
-    /*
+    //window.location.replace("loginForm.html");
+
     $.ajax({
         type: "POST",
-        url: "/hrm/user/loginOut",
-        async: true,
-        data:{
-
-            },
-        dataType: "json",
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        url: "loginOut",
+        error: function (res) {
            alert("出错了，请于管理员联系");
         },
-        success: function (json) {
-
-            window.location.replace("/hrm/");
-
+        success: function (res) {
+            window.location.replace("loginForm.html");
         }
     });
-*/
+
 }
 
 $(function () {

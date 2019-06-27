@@ -33,5 +33,11 @@
     <update id="updateDept" parameterType="edu.team.entity.Dept">
         update dept_inf set name=#{name,jdbcType=VARCHAR},remake=#{remake,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER};
     </update>
-    
+
+    <select id="selectNameById" parameterType="java.lang.Integer" resultMap="DeptResultMap">
+        select *
+        from dept_inf
+        where id = #{id}
+  </select>
+
 </mapper>

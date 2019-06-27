@@ -13,5 +13,8 @@ public interface DeptService {
 	String deleteDept(int id);
 	String updateDept(Dept dept);
 	List<Dept> selectDeptAll();
+
+	//通过id找到name
+	String selectNameById(int id);
 }
 
