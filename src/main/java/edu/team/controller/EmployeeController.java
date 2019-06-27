@@ -33,7 +33,7 @@ public class EmployeeController {
      * 查询所有员工信息
      * 完成
      */
-    @RequestMapping(value = "/findAllEmployee", method = RequestMethod.GET)
+    @RequestMapping(value = "/findAllEmployee", method = RequestMethod.POST)
     public PageInfo<EmployeeInf> findAllEmployee(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         PageHelper.startPage(pageNum, 10);
         PageInfo<EmployeeInf> pageInfo = new PageInfo<EmployeeInf>(employeeService.findALlEmployeeInf());
@@ -59,13 +59,14 @@ public class EmployeeController {
     }
 
 
-
     //点击记录-----弹出信息
-    @RequestMapping("/findEmployeeById")
-    public void findEmployeeById() {
+    @RequestMapping(value = "/findEmployeeById", method = RequestMethod.POST)
+    public EmployeeInf findEmployeeById(String id) {
 
-        EmployeeInf emp = employeeService.findEmployeeInfById(1212);
+        EmployeeInf emp = employeeService.findEmployeeInfById(Integer.valueOf(id));
         System.out.println(emp.toString());
+
+        return emp;
 
     }
 
@@ -117,11 +118,14 @@ public class EmployeeController {
     /**
      * 员工信息编辑
      */
-    @RequestMapping("editEmployee")
-    public void editEmployee() {
-        //接收前端的JSON数据
-        EmployeeInf employeeInf = new EmployeeInf(1, 1, 1,"chr");
-        employeeService.editEmployeeInfById(employeeInf);
+    @RequestMapping("/editEmployee")
+    public String editEmployee(@RequestBody String employee) {
+
+        Map<String, Object> map = JacksonUtil.jsonToMap(employee);
+
+        employeeService.addEmployeeInf(map);
+
+        return JacksonUtil.objectToJson("SUCCESS");
     }
 
 }

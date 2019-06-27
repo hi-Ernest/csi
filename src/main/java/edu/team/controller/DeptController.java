@@ -51,7 +51,7 @@ public class DeptController {
 	
 	@RequestMapping(value="/deleteDept",method=RequestMethod.POST)
 	public void deleteDept() {
-	    deptService.deleteDept("萧炎");
+	    deptService.deleteDept(2);
 	 //   return "";
 	}
 	
