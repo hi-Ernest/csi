@@ -29,8 +29,8 @@
             url: "../selectAllJob",
             type: "POST",
             dataType: "json",
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+            error: function (res) {
+                $.MsgBox.Alert("消息", "出错了，请与管理员联系");
             },
             success: function (res) {
             	loadData(res, "../selectAllJob", "post");
@@ -49,8 +49,8 @@
    			    processData: false, // 使数据不做处理
                 contentType: false, // 不要设置Content-Type请求头
    				async:false,
-   				error: function (XMLHttpRequest, textStatus, errorThrown) {
-   	                $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+   				error: function (res) {
+   	                $.MsgBox.Alert("消息", "出错了，请与管理员联系");
    	            },
    				success: function (res) {
    					loadData(res, "../selectJob", "post", formData);
@@ -132,7 +132,7 @@
 	                        processData: false,
 	                        contentType: false,
 	                        dataType: "json",
-	                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                        error: function (res) {
 	                            $.ligerDialog.error("出错了，请与管理员联系！");
 	                        },
 	                        success: function (res) {

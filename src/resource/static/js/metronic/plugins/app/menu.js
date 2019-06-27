@@ -674,7 +674,7 @@ function loginOut() {
         type: "POST",
         url: "loginOut",
         error: function (res) {
-           alert("出错了，请于管理员联系");
+           alert("出错了，请与管理员联系");
         },
         success: function (res) {
             window.location.replace("loginForm.html");

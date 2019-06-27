@@ -183,8 +183,8 @@
                     loginName: loginname.trim(),
                     password: password.trim()
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.MsgBox.Alert("消息", "出错了，请于管理员联系");
+                error: function (res) {
+                    $.MsgBox.Alert("消息", "出错了，请与管理员联系");
                 },
                 success: function (res) {
                     console.log(res);

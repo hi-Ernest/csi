@@ -63,7 +63,7 @@ public class UploadController {
             docFile.transferTo(localFile);
             //System.out.println("上传成功");
             Timestamp timestamp = new Timestamp(new Date().getTime());
-            String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, Integer.valueOf((String) session.getAttribute("loginId")));
+            String result = documentService.addDocument(docTitle, fileName, docDetail, timestamp, (Integer) session.getAttribute("loginId"));
             if ("SUCCESS".equals(result)) {
                 return JacksonUtil.objectToJson("SUCCESS");
             } else {

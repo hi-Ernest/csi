@@ -1,5 +1,6 @@
 package edu.team.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import edu.team.entity.User;
@@ -15,7 +16,7 @@ public interface UserService {
 	 * 增加用户
 	 * @return 
 	 */
-	public String add(String username, Integer status, String loginname, String password);
+	public String add(String username, Integer status, String loginname, String password, Timestamp create_time);
 
 
 	/**

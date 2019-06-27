@@ -1,5 +1,6 @@
 package edu.team.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +15,7 @@ import edu.team.entity.User;
 @Mapper
 public interface UserDao {
 	
-	public void add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password);
+	public void add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password, @Param("create_date") Timestamp create_date);
     
     public void edit(@Param("userName") String userName, @Param("loginName") String loginName, @Param("status") Integer status, @Param("id") Integer id);
     

@@ -62,7 +62,7 @@
 				url: "../findAllEmployee",
 				type: "POST",
 				dataType: "json",
-				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				error: function (res) {
 					$.ligerDialog.error("出错了，请与管理员联系！");
 				},
 				success: function (res) {
@@ -179,7 +179,6 @@
 					$trTemp.append("<td>" + address + "</td>");
 					$trTemp.append("<td>" + createDate + "</td>");
 					$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"showUpdateEmployee.html?id="+ id +"\">" + "<img title=\"修改\" src=\"../images/update.gif\"/>" + "</a>" + "</td>");
-					$trTemp.append("<td  align=\"center\" width=\"40px;\">" + "<a href=\"#\" id=\"down_" + index + "\">" + "</a>" + "</td>");
 					$trTemp.appendTo("#tbody");
 					count = index;
 				});
@@ -201,7 +200,7 @@
 							processData: false,
 							contentType: false,
 							dataType: "json",
-							error: function (XMLHttpRequest, textStatus, errorThrown) {
+							error: function (res) {
 								$.ligerDialog.error("出错了，请与管理员联系！");
 							},
 							success: function (res) {

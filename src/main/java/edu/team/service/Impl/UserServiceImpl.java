@@ -1,5 +1,6 @@
 package edu.team.service.Impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -24,9 +25,9 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Override
-	public String add(String username, Integer status, String loginname, String password) {
+	public String add(String username, Integer status, String loginname, String password, Timestamp create_time) {
 		try {
-			userDao.add(username, status, loginname, password);
+			userDao.add(username, status, loginname, password, create_time);
 			return "SUCCESS";
 		} catch (Exception e) {
 			System.out.print("dailiwen!!!!!!!!!!!!------------" + e);

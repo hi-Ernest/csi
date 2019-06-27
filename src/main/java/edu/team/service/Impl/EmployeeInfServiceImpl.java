@@ -75,13 +75,21 @@ public class EmployeeInfServiceImpl implements EmployeeService {
     @Override
     public String editEmployeeInfById(Map<String, Object> map) {
 
-        try {
-            employeeInfMapper.editEmployeeInfById(updateDate(map));
-            return "SUCCESS";
-        } catch (Exception e) {
-            System.out.println(e);
-            return "FAIL";
-        }
+        //判断是修改还是新增
+//        try {
+
+        String id = (String) map.get("id");
+        EmployeeInf employeeInf = updateDate(map);
+        employeeInf.setId(Integer.valueOf(id));
+
+        System.out.println(employeeInf.toString());
+
+        employeeInfMapper.editEmployeeInfById(employeeInf);
+        return "SUCCESS";
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            return "FAIL";
+//        }
     }
 
     @Override
@@ -144,12 +152,6 @@ public class EmployeeInfServiceImpl implements EmployeeService {
 
         //存入数据库
         emp.setDeptId(deptid);
-
-        //判断是修改还是新增
-        String id = (String) map.get("id");
-        if (!id.equals(" ") || id != null) {
-             emp.setId(Integer.valueOf(id));
-        }
 
         return emp;
     }

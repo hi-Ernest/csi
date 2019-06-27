@@ -117,10 +117,11 @@
                     var password = list[index].password;
                     var status = list[index].status;
                     var createDate = list[index].createDate;
+					console.log(list[index]);
                     createDate = createDate.substring(0, 10);
                     var time = createDate.split("-");
                     createDate = time[0] + "年" + time[1] + "月" + time[2] + "日";
-                    var userName = list [index].userName;
+                    var userName = list[index].userName;
                     var $trTemp = $("<tr class=\"main_trbg\" align=\"center\"  style=\"background-color: rgb(255, 255, 255)\" id=\"data_" + index + "\"></tr>");
                     $trTemp.append("<td>" + "<input type=\"checkbox\"  value=\"" + id + "\" id=\"box_" + index + "\">" + "</td>");
                     $trTemp.append("<td>" + loginName + "</td>");

@@ -49,7 +49,7 @@
 		resultMap="BaseResultMap1">
 		SELECT * FROM user_inf WHERE login_name = #{value}
 	</select>
-	
+
 	<!-- 通过用户名查询 -->
 	<select id="getUserFromUserName" parameterType="String"
 		resultMap="BaseResultMap1">
@@ -65,8 +65,8 @@
 	<!-- 增加 -->
 	<insert id="add">
 		insert into
-		user_inf(user_name,status,login_name,password)
-		values(#{username},#{status},#{loginname},#{password})
+		user_inf(user_name,status,login_name,password,create_date)
+		values(#{username},#{status},#{loginname},#{password},#{create_date})
 	</insert>
 	<!-- 编辑 -->
 	<update id="edit">

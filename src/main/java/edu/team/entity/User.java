@@ -1,5 +1,6 @@
 package edu.team.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ public class User {
     private String loginName;
     private String password;
     private Integer status;
-    private Date createDate;
+    private Timestamp createDate;
     private String userName;
     private String faceUrl;
     private String facePath;
@@ -40,10 +41,10 @@ public class User {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Date getCreateDate() {
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
 	public String getUserName() {
@@ -64,6 +65,6 @@ public class User {
 	public void setFacePath(String facePath) {
 		this.facePath = facePath;
 	}
-    
-    
+
+
 }

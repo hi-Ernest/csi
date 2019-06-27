@@ -1,5 +1,7 @@
 package edu.team.controller;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +37,7 @@ public class UserController {
 	public String add(String username, Integer status, String loginname, String password) {
 		String res = userService.findByLoginname(loginname);
 		if ("SUCCESS".equals(res)) {
-			res = JacksonUtil.objectToJson(userService.add(username, status, loginname, MD5Util.getMD5_32(password)));
+			res = JacksonUtil.objectToJson(userService.add(username, status, loginname, MD5Util.getMD5_32(password), new Timestamp(new Date().getTime())));
 			return res;
 		} else {
 			return JacksonUtil.objectToJson("FAIL");

@@ -22,6 +22,7 @@ import com.github.pagehelper.PageInfo;
 import edu.team.entity.Dept;
 import edu.team.entity.Document;
 import edu.team.service.DeptService;
+import edu.team.util.JacksonUtil;
 
 
 /**
@@ -57,7 +58,7 @@ public class DeptController {
 		dept.setName(name);
 		dept.setRemake(remake);
 	    deptService.insertDept(dept);
-	    return "success";
+	    return JacksonUtil.objectToJson("SUCCESS");
 	}
 	
 	@RequestMapping(value="/deleteDept",method=RequestMethod.POST)
@@ -67,13 +68,13 @@ public class DeptController {
 	}
 	
 	@RequestMapping(value="/updateDept",method=RequestMethod.POST)
-	public void updateDept(int id,String name,String remake) {
+	public String updateDept(int id,String name,String remake) {
 		Dept dept=new Dept();
 		dept.setId(id);
 		dept.setName(name);
 		dept.setRemake(remake);
 	    deptService.updateDept(dept);
-	  //  return "";
+	    return JacksonUtil.objectToJson("SUCCESS");
 	}
 
 }

@@ -43,7 +43,7 @@ public class NoticeController {
 
     @RequestMapping(value = "addNotice", method = RequestMethod.POST)
     public String addNotice(String title, String content, HttpSession session) {
-        String result = noticeService.addNotice(title, content, Integer.valueOf((String) session.getAttribute("loginId")));
+        String result = noticeService.addNotice(title, content, (Integer) session.getAttribute("loginId"));
         if ("SUCCESS".equals(result)) {
             return JacksonUtil.objectToJson("SUCCESS");
         } else {
