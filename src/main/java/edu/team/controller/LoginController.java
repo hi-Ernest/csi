@@ -55,6 +55,10 @@ public class LoginController {
         } catch (Exception e) {
             return JacksonUtil.objectToJson("FAIL");
         }
+    }
 
+    @RequestMapping(value = "getPermission", method = RequestMethod.POST)
+    public String getPermission(HttpSession session) {
+        return JacksonUtil.objectToJson(session.getAttribute("status"));
     }
 }
