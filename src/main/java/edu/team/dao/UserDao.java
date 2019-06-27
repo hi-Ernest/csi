@@ -16,15 +16,17 @@ public interface UserDao {
 	
 	public void add(@Param("username")String username, @Param("status")Integer status, @Param("loginname")String loginname, @Param("password")String password);
     
-    public void edit(Integer id);
+    public void edit(@Param("userName") String userName, @Param("loginName") String loginName, @Param("status") Integer status, @Param("id") Integer id);
     
-    public void delete(Integer id);
+    public void deleteUserById(Integer id);
     
-    public User getUser(Integer id);
+    public User getUserFromId(Integer id);
     
-    public List<User> findByUsername(String username);
+    public List<User> getUserFromInfo(@Param("user_name") String user_name, @Param("status") Integer status);
     
-    public List<User> queryByUsername(String username);
+    public List<User> findByLoginname(String loginname);
     
-    public List<User> findAll();
+    public List<User> findAllUsers();
+    
+    public List<User> getUserFromUserName(@Param("user_name") String user_name);
 }

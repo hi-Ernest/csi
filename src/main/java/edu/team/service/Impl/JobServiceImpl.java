@@ -15,6 +15,8 @@ import edu.team.entity.Job;
 import edu.team.service.DeptService;
 import edu.team.service.JobService;
 
+import java.util.List;
+
 /**
  * 初始项目ServiceImpl示例
  */
@@ -65,5 +67,20 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<Job> selectJobAll() {
         return jobDao.selectJobAll();
+    }
+
+    @Override
+    public Job selectJobByName(String name) {
+        return jobDao.selectJobByName(name);
+    }
+
+    @Override
+    public List<Job> selectAllJobs() {
+        return jobDao.selectAllJobs();
+    }
+
+    @Override
+    public String selectNameById(Integer id) {
+        return jobDao.selectNameById(id).getName();
     }
 }

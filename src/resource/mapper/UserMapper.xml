@@ -14,35 +14,67 @@
 		<result column="face_url" property="faceUrl" jdbcType="CHAR" />
 		<result column="face_path" property="facePath" jdbcType="CHAR" />
 	</resultMap>
-	<!-- 查询dept_inf所有用户信息 -->
-	<select id="findAll" resultMap="BaseResultMap1">
-		SELECT * FROM user_inf;
+	<!-- 查询user_inf所有用户信息 -->
+	<select id="findAllUsers" resultMap="BaseResultMap1">
+		SELECT
+			*
+		FROM
+		user_inf
 	</select>
+
+
 	<!-- 查询dept_inf单个用户信息 -->
-	<select id="getUser" resultMap="BaseResultMap1">
+	<select id="getUserFromId" resultMap="BaseResultMap1">
 		SELECT * FROM user_inf WHERE id =
-		#{id};
+		#{id}
 	</select>
 	<!-- 通过名字查询 -->
-	<select id="findUserByUsername" parameterType="int"
-		resultMap="BaseResultMap1">
-		SELECT * FROM user_inf WHERE user_name =#{value};
+	<select id="getUserFromInfo" parameterType="string" resultMap="BaseResultMap1">
+        SELECT
+        *
+        FROM
+        user_inf
+        <where>
+            <if test="user_name != null and user_name != ''">
+                AND user_inf.user_name LIKE concat('%',#{user_name},'%')
+            </if>
+            <if test="status != null and status != ''">
+                AND user_inf.status LIKE concat('%',#{status},'%')
+            </if>
+        </where>
 	</select>
+
+	<!-- 通过登录名查询 -->
+	<select id="findByLoginname" parameterType="String"
+		resultMap="BaseResultMap1">
+		SELECT * FROM user_inf WHERE login_name = #{value}
+	</select>
+	
+	<!-- 通过用户名查询 -->
+	<select id="getUserFromUserName" parameterType="String"
+		resultMap="BaseResultMap1">
+		SELECT * FROM user_inf WHERE user_inf.user_name LIKE concat('%',#{user_name},'%')
+	</select>
+
 	<!-- 通过id删除 -->
-	<delete id="delete" parameterType="Integer">
-		DELETE FROM user_inf WHERE id
+	<delete id="deleteUserById" parameterType="Integer">
+		DELETE FROM user_inf
+		WHERE id
 		= #{id};
 	</delete>
 	<!-- 增加 -->
 	<insert id="add">
-		insert into user_inf(user_name,status,login_name,password)
-		values(#{username},#{status},#{loginname},#{password});
+		insert into
+		user_inf(user_name,status,login_name,password)
+		values(#{username},#{status},#{loginname},#{password})
 	</insert>
 	<!-- 编辑 -->
 	<update id="edit">
 		UPDATE user_inf
-		SET user_name = #{username},loginname=#{loginname},status=#{status}
+		SET user_inf.user_name = #{userName},
+		 user_inf.login_name = #{loginName},
+		 user_inf.`status` = #{status}
 		WHERE
-		id = #{id};
+			id = #{id}
 	</update>
 </mapper>

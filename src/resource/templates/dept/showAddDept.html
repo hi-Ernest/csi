@@ -25,7 +25,7 @@
 			//$("#deptForm").submit(function(){
 				var name = $("#name");
 				var remark = $("#remark");
-			/*	var msg = "";
+				var msg = "";
 				if ($.trim(name.val()) == ""){
 					msg = "部门名称不能为空！";
 					name.focus();
@@ -33,14 +33,11 @@
 					msg = "详细描述不能为空！";
 					remark.focus();
 				}
+				
 				if (msg != ""){
 					$.ligerDialog.error(msg);
 					return false;
-				}else{
-					return true;
-				}*/
-				
-				$.ajax({
+				}else{$.ajax({
 					type:"post",
 					url:"../insertDept",
 					data:{
@@ -53,17 +50,21 @@
 						console.log(data);
 						if (data == "SUCCESS") {
 							$.ligerDialog.success("添加成功");
+	                    }else{
+	                    	$.ligerDialog.error("添加失败");
 	                    }
 					},
-					error:function(e){
-						$.ligerDialog.error("添加失败");
-					}
-					
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $.ligerDialog.error("出错了，请与管理员联系！");
+                    },
 				})
+					return true;
+				}
+				
 	    }
 			
 		function cancel(){
-			window.location.href = 'http://localhost:10086/csi/dept/dept.html';
+			window.location.href = 'dept.html';
 		}
 
 		

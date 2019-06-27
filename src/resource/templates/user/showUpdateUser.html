@@ -23,46 +23,6 @@
 <script src="../js/ligerUI/js/plugins/ligerResizable.js"
 	type="text/javascript"></script>
 <link href="../css/pager.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript">
-	$(document).ready(
-			function() {
-				/**function submit() {
-					$("#status").val($("#sta").val());
-
-
-					var username = $("#username");
-					var status = $("#status");
-					var loginname = $("#loginname");
-
-					var msg = "";
-					if ($.trim(username.val()) == "") {
-						msg = "姓名不能为空！";
-						username.focus();
-					} else if ($.trim(loginname.val()) == "") {
-						msg = "登录名不能为空！";
-						loginname.focus();
-					} else if ($.trim(loginname.val()).length < 6
-							|| $.trim(loginname.val()).length > 20) {
-						msg = "登录名需要大于6位小于20位！";
-						loginname.focus();
-					}
-					if (msg != "") {
-						$.ligerDialog.error(msg);
-						return false;
-					} else {
-						return true;
-					}
-					//$("#userForm").submit();
-
-				}*/
-				$("#cancel1").click(function() {
-					location.href = 'user.html';
-				});
-
-			});
-</script>
-
-
 </head>
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -92,7 +52,7 @@
 							<table>
 								<tr>
 									<td class="font3 fftd">姓名：<input type="text"
-										name="username" id="username" size="20" value="wangxh" /></td>
+										name="username" id="userName" size="20" value="wangxh" /></td>
 									<td class="font3 fftd">状态： <select name="status"
 										id="status">
 											<option value="1">管理员</option>
@@ -105,7 +65,7 @@
 
 								<tr>
 									<td class="font3 fftd">登录名： <input name="loginname"
-										id="loginname" size="20" value="wangxh" /> <input
+										id="loginName" size="20" value="wangxh" /> <input
 										type="hidden" name="password" id="password" size="20"
 										value="songyq" />
 									</td>
@@ -120,8 +80,8 @@
 					</tr>
 
 					<tr>
-						<td align="left" class="fftd"><input type="button"
-							onclick="submit()" value="修改 ">&nbsp;&nbsp; <input
+						<td align="left" class="fftd"><input type="button" id="btn"
+							 value="修改 ">&nbsp;&nbsp; <input
 							type="button" id="cancel1"value="取消 "></td>
 					</tr>
 
@@ -130,5 +90,113 @@
 				</table>
 	</table>
 	<div style="height: 10px;"></div>
+			<script type="text/javascript">
+			var id = getParams("id");
+
+			function getParams(name, href) {
+				var href = href || window.location.href,
+						value = '';
+				if (name) {
+					var reg = new RegExp(name + '=([^&]*)', 'g');
+					href.replace(reg, function ($0, $1) {
+						value = decodeURI($1);
+					});
+				} else {
+					value = {};
+					var reg = /\b(\w+)=([^\/&]*)/g;
+					href.replace(reg, function ($0, $1, $2) {
+						value[$1] = decodeURI($2);
+					});
+				}
+				return value;
+			};
+
+			var formData = new FormData();
+			formData.append("id", id);
+
+			$.ajax({
+				url: "../getUserFromId",
+				type: "post",
+				data: formData,
+				dataType: "json",
+				async: false,
+				processData: false, // 使数据不做处理
+				contentType: false, // 不要设置Content-Type请求头
+				error: function (res) {
+					$.ligerDialog.error("出错了，请与管理员联系！");
+				},
+				success: function (res) {
+					var json = eval(res);
+					$("#userName").attr('value', json.userName);
+					$("#loginName").attr('value', json.loginName);
+					$("#status").attr('value', json.status);
+				}
+			});
+			
+			$("#cancel1").click(function() {
+				location.href = 'user.html';
+			});
+
+			$(document).ready(function () {
+				/** 表单提交的校验 */
+				$("#btn").click(function () {
+					var userName = $.trim($('#userName').val());
+					var loginName = $.trim($('#loginName').val());
+					var status = $.trim($("#status option:selected").val());
+					
+
+					var username = $("#userName");
+					var loginname = $("#loginName");
+
+					var msg = "";
+					if ($.trim(username.val()) == "") {
+						msg = "姓名不能为空！";
+						username.focus();
+					} else if ($.trim(loginname.val()) == "") {
+						msg = "登录名不能为空！";
+						loginname.focus();
+					} else if ($.trim(loginname.val()).length < 6
+							|| $.trim(loginname.val()).length > 20) {
+						msg = "登录名需要大于6位小于20位！";
+						loginname.focus();
+					}
+					if (msg != "") {
+						$.ligerDialog.error(msg);
+						return false;
+					}
+					
+
+					var formData = new FormData();
+
+					formData.append("userName", userName);
+					formData.append("loginName", loginName);
+					formData.append("status", status);
+					formData.append("id", id);
+					
+					console.log(userName + "!!" + loginName + "!!" + status + "!!" + id);
+
+					$.ajax({
+						url: "../updateUserFromId",
+						type: "post",
+						data: formData,
+						dataType: "json",
+						async: false,
+						processData: false, // 使数据不做处理
+						contentType: false, // 不要设置Content-Type请求头
+						error: function (res) {
+							$.ligerDialog.error("出错了，请与管理员联系！");
+						},
+						success: function (res) {
+							if (res == "SUCCESS") {
+								$.ligerDialog.success("修改成功");
+								//location.href = "notice.html";
+							} else {
+								$.ligerDialog.error("登录名已存在！");
+							}
+						}
+					});
+				})
+			});
+		</script>
 </body>
 </html>
