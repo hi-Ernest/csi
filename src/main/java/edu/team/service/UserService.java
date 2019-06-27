@@ -17,21 +17,23 @@ public interface UserService {
 	 */
 	public String add(String username, Integer status, String loginname, String password);
 
-	/**
-	 * 修改用户
-	 */
-	public void editUser(Integer id);
 
 	/**
 	 * 删除用户
 	 */
-	public void deleteById(Integer id);
+	public String deleteUserById(Integer id);
 
 	/**
-	 * 获取指定id用户
+	 * 获取指定信息用户
 	 * @return 
 	 */
-	public String findByUsername(Integer id);
+	public List<User> getUserFromInfo(String userName, Integer status);
+	
+	/**
+	 * 获取指定用户名用户
+	 * @return 
+	 */
+	public List<User> getUserFromUserName(String userName);
 
 	/**
 	 * 获取指定登录用户
@@ -41,5 +43,9 @@ public interface UserService {
 	 * 获取全部用户
 	 */
 	public List<User> findAllUsers();
+	
+	public User getUserFromId(Integer id);
+	
+	public String updataUserById(String userName, String loginName, Integer status, Integer id);
 
 }
