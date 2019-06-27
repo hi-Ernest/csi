@@ -92,6 +92,8 @@ public class EmployeeController {
     @ResponseBody
     public String addEmployee(@RequestBody String employee) {
 
+        System.out.println(employee+ " *************************************");
+
         Map<String, Object> map = JacksonUtil.jsonToMap(employee);
 
         employeeService.addEmployeeInf(map);
@@ -122,7 +124,6 @@ public class EmployeeController {
     public String editEmployee(@RequestBody String employee) {
 
         System.out.println(employee + "    ****************************************");
-
 
         Map<String, Object> map = JacksonUtil.jsonToMap(employee);
 
